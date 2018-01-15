@@ -1,0 +1,48 @@
+\documentclass[10pt]{book}
+\usepackage[a5paper]{geometry}
+\usepackage{mathpazo} % font style
+\linespread{1.05} % Palatino needs more leading (space between lines)
+\renewcommand{\familydefault}{\sfdefault}
+\input{usepackages.tex} % load required packages
+\raggedbottom % prevent spreading out paragraphs with lots of whitespace inbetween
+
+\begin{document}
+
+\pagestyle{empty}
+
+\input{cover.tex}
+
+\setcounter{page}{1}
+
+\input{preamble.tex}
+
+\tableofcontents
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\leftmark}
+\fancyhead[RO]{\rightmark}
+\fancyfoot[LE,RO]{\thepage}
+
+\input{introduction.tex}
+\input{xgap.tex}
+\input{xqtl.tex}
+\input{wormqtl.tex}
+\input{caddmmr.tex}
+\input{gavin.tex}
+\input{frameworkforgenomics.tex}
+\input{discussion.tex}
+
+\bibliographystyle{plain}
+
+\cleardoublepage
+\leftwatermark{}\rightwatermark{} % stop printing the thumb indexes
+\phantomsection\bibliography{references}{}
+\cleardoublepage\phantomsection\listoftables
+\cleardoublepage\phantomsection\listoffigures
+
+\input{appendix.tex}
+
+\input{back.tex}
+
+\end{document}
