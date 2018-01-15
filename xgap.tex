@@ -1,0 +1,441 @@
+\chapter[XGAP model for genotype and phenotype experiments]{XGAP: A uniform and extensible data model and software platform for genotype and phenotype experiments}
+\chaptermark{XGAP model for genotype and phenotype}
+\label{chap:xgap}
+
+{ \Large \leftwatermark{
+\put(-67,-66.5){ 1 }
+\put(-76.5,-100){\includegraphics[scale=0.8]{img/thumbindex.eps}} \put(-67,-91.5){ {\color{white} 2 }}
+\put(-67,-116.5){ 3 }
+\put(-67,-141.5){ 4 }
+\put(-67,-166.5){ 5 }
+\put(-67,-191.5){ 6 }
+\put(-67,-216.5){ 7 }
+\put(-67,-241.5){ 8 }
+} \rightwatermark{
+\put(350.5,-66.5){ 1 }
+\put(346.5,-100){\includegraphics[scale=0.8]{img/thumbindex.eps}} \put(350.5,-91.5){ {\color{white} 2 }}
+\put(350.5,-116.5){ 3 }
+\put(350.5,-141.5){ 4 }
+\put(350.5,-166.5){ 5 }
+\put(350.5,-191.5){ 6 }
+\put(350.5,-216.5){ 7 }
+\put(350.5,-241.5){ 8 }
+}}
+
+\hfill \underline{Genome Biol.} 2010;11(3):R27.
+
+\hfill DOI: \href{https://doi.org/10.1186/gb-2010-11-3-r27}{10.1186/gb-2010-11-3-r27}
+
+\hfill PubMed ID: \href{https://www.ncbi.nlm.nih.gov/pubmed/20214801}{20214801}
+
+\newpage
+
+\noindent
+Morris A. Swertz\textsuperscript{1,2,3,*}, K. Joeri van der Velde\textsuperscript{1,2}, Bruno M. Tesson\textsuperscript{2}, Richard A Scheltema\textsuperscript{2}, Danny Arends\textsuperscript{1,2}, Gonzalo Vera\textsuperscript{2}, Rudi Alberts\textsuperscript{4}, Martijn Dijkstra\textsuperscript{5}, Paul Schofield\textsuperscript{6}, Klaus Schughart\textsuperscript{4}, John M. Hancock\textsuperscript{7}, Damian Smedley\textsuperscript{3}, Katy Wolstencroft\textsuperscript{8}, Carole Goble\textsuperscript{8}, Engbert O. de Brock\textsuperscript{9}, Andrew R. Jones\textsuperscript{10}, Helen E. Parkinson\textsuperscript{3}, members of the Coordination of Mouse Informatics Resources (CASIMIR)\textsuperscript{6}, Genotype-To-Phenotype (GEN2PHEN) Consortiums\textsuperscript{1}, Ritsert C. Jansen\textsuperscript{1,2}\\
+
+\noindent
+1. Genomics Coordination Center, Department of Genetics, University Medical Center Groningen and University of Groningen, 9700 RB Groningen, The Netherlands\\
+2. Groningen Bioinformatics Center, University of Groningen, 9750 AA Haren, The Netherlands\\
+3. EMBL - European Bioinformatics Institute, Hinxton, Wellcome Trust Genome Campus Hinxton, Cambridge CB10 1SD, UK\\
+4. Experimental Mouse Genetics, Helmholtz Center for Infection Research, Inhoffenstraße 7, D-38124 Braunschweig, Germany\\
+5. Center for Medical Biomics, University of Groningen, Groningen, A. Deusinglaan 1, 9713 AV Groningen, The Netherlands\\
+6. Physiological Development and Neuroscience, University of Cambridge, Downing Street, Cambridge CB2 3DY, UK
+7. Bioinformatics Group, MRC Harwell, Harwell, Oxfordshire OX11 0RD, UK\\
+8. Information Management Group, School of Computer Science, University of Manchester, Kilburn Building, Oxford Road, Manchester M13 9PL, UK\\
+9. Department of Business and ICT, Faculty of Economics and Business, University of Groningen, 9700 AV Groningen, The Netherlands\\
+10. Department of Pre-Clinical Veterinary Science and Veterinary Pathology, Faculty of Veterinary Science, University of Liverpool, Liverpool L69 7ZJ, UK\\
+
+\noindent
+Received 2009 Jul 14; Revised 2009 Dec 17; Accepted 2010 Mar 9.
+\\~\\
+* Corresponding author.
+
+
+\section*{Abstract}
+We present an extensible software model for the genotype and phenotype community, XGAP.
+Readers can download a standard XGAP (\url{http://www.xgap.org}) or auto-generate a custom version using MOLGENIS with programming interfaces to R-software and web-services or user interfaces for biologists.
+XGAP has simple load formats for any type of genotype, epigenotype, transcript, protein, metabolite or other phenotype data.
+Current functionality includes tools ranging from eQTL analysis in mouse to genome-wide association studies in humans.
+
+\section{Background}
+Modern genetic and genomic technologies provide researchers with unprecedented amounts of raw and processed data.
+For example, recent genetical genomics\cite{Li_2008, Jansen_2001, Li_2005} studies have mapped gene expression (eQTL), protein abundance (pQTL) and metabolite abundance (mQTL) to genetic variation using genome-wide linkage and genome-wide association experiments on various microarray, mass spectrometry and proton nuclear magnetic resonance (NMR) platforms and in a wide range of organisms, including human\cite{Editorial_2007, G_ring_2007, Dixon_2007, Stranger_2007a, Heap_2009}, yeast\cite{Brem_2002, Foss_2007}, mouse\cite{Bystrykh_2005}, rat\cite{Hubner_2005}, \textsl{Caenorhabditis elegans}\cite{Li_2006} and \textsl{Arabidopsis thaliana}\cite{Keurentjes_2007, Keurentjes_2006, Fu_2009}.
+
+Understanding these and other high-tech genotype-to-phenotype data is challenging and depends on suitable ‘cyber infrastructure’ to integrate and analyze data\cite{Stein_2008, Fay_2008}: data infrastructures to store and query the data from different organisms, biomolecular profiling technologies, analysis protocols and experimental designs; graphical user interfaces (GUIs) to submit, trace and retrieve these particular data; communicating infrastructure in, for example, R\cite{Ihaka_1996}, Java and web services to connect to different processing infrastructures for statistical analysis\cite{Carey_2006, Alberts_2007, Fu_2007, Bhave_2007, Broman_2003} and/or integration of background information from public databases\cite{Smedley_2008}; and a simple file format to load and exchange data within and between projects.
+
+Many elements of the required cyber infrastructure are available: The Generic Model Organism Database (GMOD) community developed the Chado schema for sequence, expression and phenotype data\cite{Mungall_2007} and delivered reusable software components like gbrowse\cite{Stein_2002}; the BioConductor community has produced many analysis packages that include data structures for particular profiling technologies and experimental protocols\cite{Gentleman_2004}; and numerous bespoke databases, data models, schemas and formats have been produced, such as the public and private microarray expression databases and exchange formats\cite{Brazma_2006, Saal_2002, Galperin_2009}.
+Some integrated cyber infrastructures are also available: the National Center for Biotechnology Information (NCBI) has launched dbGaP (database of genotypes and phenotypes)\cite{Mailman_2007}, a public database to archive genotype and clinical phenotype data from human studies; and the Complex Trait Consortium has launched GeneNetwork\cite{Chesler_2005}, a database for mouse genotype, classical phenotype and gene expression phenotype data with tools for ‘per-trait’ quantitative trait loci (QTL) analysis.
+
+However, a suitable and customizable integration of these elements to support high throughput genotype-to-phenotype experiments is still needed\cite{Thorisson_2009b}: dbGaP, GeneNetwork and the model organism databases are designed as international repositories and not to serve as general data infrastructure for individual projects; many of the existing bespoke data models are too complicated and specialized, hard to integrate between profiling technologies, or lack software support to easily connect to new analysis tools; and customization of the existing infrastructures dbGaP, GeneNetwork or other international repositories\cite{Zeng_2007, Hu_2007} or assembly of Bioconductor and generic model organism database components to suit particular experimental designs, organisms and biotechnologies still requires many minor and sometimes major manual changes in the software code that go beyond what individual lab bioinformaticians can or should do, and result in duplicated efforts between labs if attempted.
+
+To fill this gap we here report development of an extensible data infrastructure for genotype and phenotype experiments (XGAP) that is designed as a platform to exchange data and tools and to be easily customized into variants to suit local experimental models.
+We therefore adopted an alternative software engineering strategy, as outlined in our recent review\cite{Swertz_2007}, that enables generation of such software efficiently using three components: a compact and extensible ‘standard’ model of data and software; a high-level domain-specific language (DSL) to simply describe biology-specific customizations to this software; and a software code generator to automatically translate models and extensions into all low-level program files of the complete working software, building on reusable elements such as listed above as well as general informatics elements and some new/optimized elements that were missing.
+
+Below we detail XGAPs extensible ‘standard’ software model (XGAP-OM) and evaluate the auto-generated text file exchange format (XGAP-TAB) and customizable database software (XGAP-DB) that should help researchers to quickly use and adapt XGAP as a platform for their genetics and/or *omics experiments (Table \ref{table:xgap_features}).
+Harmonized data representations and programmatic interfaces aim to reduce the need for multiple format convertors and easy sharing of downstream analysis tools via a hub-and-spoke architecture.
+Use of software auto-generation, implemented using MOLGENIS, aims to ease and speed up customization/variation into new XGAP versions for new biotechnologies and alternative experimental designs while ensuring consistent programming interfaces for the integration and sharing of existing analysis tools.
+Standardized extension mechanisms should balance between format/interface stability for existing data types and tools, and flexibility to adopt new ones.
+
+\begin{table}
+\footnotesize
+\begin{tabularx}{\linewidth}{ l X }
+  \hline
+  \rule{0pt}{2.5ex}\textbf{Store} & Store genotype and phenotype experimental data using only four ‘core’ data types: \textsl{Trait}, \textsl{Subject}, \textsl{Data}, and \textsl{DataElement}. For example: a single-channel microarray reports raw gene expression \textsl{Data} for each microarray probe \textsl{Trait} and each individual \textsl{Subject}. Add information on data provenance by giving details in \textsl{Investigation}, \textsl{Protocols} and \textsl{ProtocolApplications}\\
+  \rule{0pt}{2.5ex}\textbf{Customize} & Customize ‘my’ XGAP database with extended variants of \textsl{Trait} and \textsl{Subject}. In the online XGAP demonstrator, \textsl{Probe} traits have a sequence and genome location and \textsl{Strain} subjects have parent strains and (in)breeding method. Describe extensions using MOLGENIS language and the generator automatically changes XGAP database software to your research\\
+  \rule{0pt}{2.5ex}\textbf{Upload} & Upload data from measurement devices, public databases, collaborating XGAP databases, or a public XGAP repository with community data. Simply download trait information as tab-delimited files from one XGAP and upload it into another; this works because of the uniformity of the core data types (and extensions thereof)\\
+  \rule{0pt}{2.5ex}\textbf{Search} & Search genetical genomics data using the graphical user interface with advanced query tools. The uniformity of the ‘code generated’ interfaces make it easy to learn and use interfaces for both ‘core’ data types as well as customized extensions\\
+  \rule{0pt}{2.5ex}\textbf{Analyze} & Analyze data by connecting tools using simple methods in Java, R, Web Services or Internet hyperlinks. For example, map and plot quantitative trait loci in R using XGAP data retrieved via the R interface\\
+  \rule{0pt}{2.5ex}\textbf{Plug-in} & Plug-in the best analysis tools into the user interface so biologists can use them. Bioinformaticians are provided with simple mechanisms to seamlessly add such tools to XGAP, building on the automatically generated GUI and API building blocks\\
+  \rule{0pt}{2.5ex}\textbf{Share} & Share data, customizations, connected analysis tools and user interface plug-ins with the genetical genomics community, using XGAP as exchange platform. For example, the MetaNetwork R package can talk to data in XGAP. This makes it easy for other XGAP owners to also use it\\
+  \hline
+  ~ & {\scriptsize API: application programming interface; GUI: graphical user interface; MOLGENIS: biosoftware generator for MOLecular GENetics Information Systems.}\\
+\end{tabularx}
+\caption[Features of XGAP database]{Features of XGAP database for genotype and phenotype experiments.}
+\label{table:xgap_features}
+\end{table}
+
+\section{Minimal and extensible object model}
+We developed the XGAP object model to uniformly capture the wide variety of (future) genotype and phenotype data, building on generic standard model FuGE (Functional Genomics Experiment)\cite{Jones_2007} for describing the experimental ‘metadata’ on samples, protocols and experimental variables of functional genomics experiments, the OBO model (of the Open Biological and Biomedical Ontologies foundry for use of standard and controlled vocabularies and ontologies that ease integration\cite{Smith_2007}, and lessons learned from previous, profiling technology-specific modeling efforts\cite{Brazma_2006}.
+
+Figure \ref{fig:xgap_model}b shows the core components of a genotype-to-phenotype investigation: the biological subjects studied (for example, human individuals, mouse strains, plant tissue samples), the biomolecular protocols used (for example, Affymetrix, Illumina, Qiagen, liquid chromatography-mass spectrometry (LC/MS), Orbitrap, NMR), the trait data generated (usually data matrices with, for example, phenotype or transcript abundance data), the additional information on these traits (for example, genome location of a transcript, masses of LC/MS peaks), the wet-lab or computational protocols used (for example, MetaNetwork\cite{Fu_2007} in the case of QTL and network analysis) and the derived data (for example, QTL likelihood curves).
+
+\linespread{1.00} % need to squeeze a bit to fit caption nicely
+\begin{figure}
+	\centering
+	\includegraphics[width=0.87\linewidth]{img/xgap_model}
+	\captionsetup{font=scriptsize,labelfont=scriptsize}
+	\caption[Extensible genotype and phenotype object model]{Extensible genotype and phenotype object model. Experimental genotype and (molecular) phenotype data can be described using \textsl{Subject}, \textsl{Trait}, \textsl{Data} and \textsl{DataElement}; the experimental procedures can be described using \textsl{Investigation}, \textsl{Protocol} and \textsl{ProtocolApplication} \textbf{(b)}. Specific attributes and relationships can be added by extending core data types, for example, \textsl{Sample} and \textsl{Gene} \textbf{(a, c)}. See Table \ref{table:xgap_core_usecases}, \ref{table:xgap_extension_usecases} and \ref{table:xgap_annotation_usecases} for uses of this model. The model is visualized in the Unified Modeling Language (UML): arrows denote relationships (\textsl{Data} has a field Investigation that refers to \textsl{Investigation} ID); triangle terminated lines denote inheritance (\textsl{Metabolite} inherits all properties ID, Name, Type from \textsl{Trait}, next to its own attributes Mass, Formula and Structure); triangle terminated dotted lines denote use of interfaces (\textsl{Probe} ’implements’ properties of \textsl{Locus}); relationships are shown both as arrows and as properties (’xref’ for one-to-many, ‘mref’ for many-to-many relationships). Asterisks mark FuGE-derived types (for example, \textsl{Protocol}*).}
+	\label{fig:xgap_model}
+\end{figure}
+\linespread{1.05} % and back to normal
+
+We describe these biological components using FuGE data types and XGAP extensions thereof.
+\textsl{Investigation} binds all details of an investigation.
+Each investigation may apply a series of biomolecular\cite{Brown_2005} and computational\cite{Carey_2006, Alberts_2007, Fu_2007, Bhave_2007} \textsl{Protocols}.
+The applications of such \textsl{Protocols} are termed \textsl{ProtocolApplications}, which in the case of computational \textsl{Protocols} may require input \textsl{Data} and will deliver output \textsl{Data}.
+These \textsl{Data} have the form of matrices, the \textsl{DataElements} of which have a row and a column index.
+Each row and column refers to a \textsl{DimensionElement}, being a particular \textsl{Subject} or a particular \textsl{Trait}.
+Table \ref{table:xgap_core_usecases} illustrates the usage of these core data types.
+
+\begin{table}
+\begin{tabulary}{\linewidth}{L}
+  \hline
+  A growth measurement (\textsl{Data}) reports the time (\textsl{DataElement}) it took to flower (\textsl{Trait}) for an \textsl{Arabidopsis} plant (\textsl{Subject})\\
+  ~\\
+  A two-color microarray result (\textsl{Data}) describes raw intensities measured (\textsl{DataElement}) for gene transcript probe hybrdization (\textsl{Trait}) for each pair of \textsl{Arabidopsis} individuals (\textsl{Subject})\\
+  ~\\
+  A marker measurement (\textsl{ProtocolApplication}) resulted in a genetic profile (\textsl{Data}) with genotype values (\textsl{DataElement}) for each SNP/microsatellite marker (\textsl{Trait}) for each human individual (\textsl{Subject})\\
+  ~\\
+  A genetical genomics stem cell \textsl{Investigation} was carried out on 30 recombinant mouse inbred strains (\textsl{Subject}). It involved a \textsl{ProtocolApplication} of the ‘Affymetrix MG-U74Av2’ \textsl{Protocol} to produce expression profiles (\textsl{Data}) for 12,422*16 microarray probes (\textsl{Traits}). These profiles consisted of a matrix of signals (\textsl{DataElement}) for each Probe (\textsl{Traits}) and each InbredStrain (\textsl{Subject}). Subsequently, these \textsl{Data} were taken as \textsl{inputData} in a normalization procedure (\textsl{ProtocolApplication}) using RMA normalization \textsl{Protocol}, which resulted in \textsl{outputData} of normalized profiles (\textsl{Data}) of Probe*InbredStrain (Trait*Subject)\\
+  \hline
+  {\footnotesize RMA: robust multi-array average.}\\
+\end{tabulary}
+\caption{Use cases of core data types.}
+\label{table:xgap_core_usecases}
+\end{table}
+
+Figure \ref{fig:xgap_model}a, c shows how the XGAP model can be extended to accommodate details on particular types of subjects and traits in a uniform way.
+A \textsl{Trait} can be a classical phenotype (for example, flowering - the flowering time is stored in the \textsl{DataElement}) or a biomolecular phenotype (for example, \textsl{Gene} X - its transcript abundance is stored in the \textsl{DataElement}).
+A \textsl{Trait} can also be a genotype (for example, \textsl{Marker} Y is a genomic feature observation that is stored in the \textsl{DataElement}).
+Genomic traits such as \textsl{Gene}, \textsl{Marker} and \textsl{Probe} all need additional information about their genome \textsl{Locus} to be provided.
+Similarly, a \textsl{Subject} can be a single \textsl{Sample} (for example, a labeled biomaterial as put on a microarray) and such a sample may originate from one particular \textsl{Individual}.
+It may also be a \textsl{PairedSample} when biomaterials come from two individuals - for example, if biomaterial has been pooled as in two-color microarrays.
+An individual belongs to a particular \textsl{Strain}.
+When new experiments are added new variants of \textsl{Trait} and \textsl{Subject} can be added in a similar way.
+Table \ref{table:xgap_extension_usecases} illustrates the generic usage of these extended data types.
+
+\begin{table}
+\begin{tabulary}{\linewidth}{L}
+  \hline
+  \textsl{Sample} is a \textsl{Subject} with the additional property that ‘Tissue’ can be specified\\
+  ~\\
+  \textsl{Individual} is a \textsl{Subject} with the additional property that relationships with Mother and Father individuals, as well as \textsl{Strain}, can be specified\\
+  ~\\
+  \textsl{PairedSample} is a \textsl{Sample} with the additional property that ‘Dye’ has to be specified and which two Subjects (or subclasses such as Individual) are labeled with ‘Cy3’ and ‘Cy5’\\
+  ~\\
+  An \textsl{InbredStrain} is a \textsl{Strain} with the additional property that the ‘Parents’ (mother Individual and father Individual) are specified and the ‘type’ of inbreeding used\\
+  ~\\
+  An amplified fragment length polymorphism, microsatellite or SNP \textsl{Marker} (is a \textsl{Trait}) may refer to genetic and possible genomics location (\textsl{Marker} also is a \textsl{Locus})\\
+  ~\\
+  A correlation computation (\textsl{Data}) reports associations (\textsl{DataElement}) between \textsl{Metabolite} (is a \textsl{Trait}); because \textsl{Trait} and \textsl{Subject} are both extensions of \textsl{DimensionElement}, they can be connected to a row and column of \textsl{DataElement} interchangeably\\
+  \hline
+\end{tabulary}
+\caption[Use cases of extended data types]{Use cases of extended data types.}
+\label{table:xgap_extension_usecases}
+\end{table}
+
+Several standard data types were also inherited from FuGE to enable researchers to provide ‘Minimum Information’ for QTLs and Association Studies such as defined in the MIQAS checklist\cite{xgap_miqas} - a member of the Minimum Information for Biological and Biomedical Investigations (MIBBI) guideline effort\cite{Taylor_2008}.
+Data types \textsl{Action(Application)}, \textsl{Software(Application)}, \textsl{Equipment (Application)} and \textsl{Parameter(Value)} can be used to describe \textsl{Protocol(Application)s} in more detail.
+For example, a normalization \textsl{Protocol} may involve a ‘robust multiarray average (RMA) normalization’ \textsl{Action} that uses Bioconductor ‘affy’ \textsl{Software}\cite{Irizarry_2003} with certain \textsl{ParameterValues}.
+Data types \textsl{Description}, \textsl{BibliographicReferences}, \textsl{DatabaseEntry}, \textsl{URI}, and \textsl{FileAttachment} enable researchers to freely add additional annotations to certain data types - \textsl{DimensionElement}, \textsl{Investigation}, \textsl{Protocol}, \textsl{ProtocolApplication}, and \textsl{Data}.
+For example, researchers can annotate a \textsl{Gene} with one or more \textsl{DatabaseEntries}, referring to unique database accession numbers for automated data integration.
+
+A unique feature of XGAP is the uniform treatment of the various trait and subject annotations.
+The drawback of allowing users to freely add additional annotations such as described above is that users and tools using metabolite and gene traits, for example, would have to inspect each \textsl{Trait} instance to see whether it is actually a metabolite or gene, and how it is annotated.
+That is why we instead use the object-oriented method of ‘inheritance’ to explicitly add essential properties to \textsl{Trait} and \textsl{Subject} variants to make sure that they are described in a uniform way.
+For example, \textsl{Metabolite} extends \textsl{Trait}, which explicitly adds properties ID, Name and Type (inherited from \textsl{DimensionElement}) to metabolite specific properties Mass, Formula and Structure.
+See Jones \textsl{et al.}\cite{Jones_2007} for the complete FuGE specifications and Jones and Paton\cite{Jones_2005} for a discussion on the benefits and drawbacks of alternative mechanisms for supporting extension in object models.
+Table \ref{table:xgap_annotation_usecases} illustrates the usage of these annotation data types.
+
+\begin{table}
+\begin{tabulary}{\linewidth}{L}
+  \hline
+  A \textsl{Gene} in an \textsl{Arabidopsis Investigation} can be connected to a \textsl{DatabaseEntry} describing a reference to related information in the TAIR database\cite{xgap_tair} and another \textsl{DatabaseEntry} describing a reference to the MIPS database\cite{Pagel_2004}\\
+  ~\\
+  Each \textsl{Individual} in a \textsl{C. elegans Investigation} is annotated with an \textsl{OntologyTerm} to indicate that it was grown in an environment of either 16$^{\circ}$C or 24$^{\circ}$C\\
+  ~\\
+  The \textsl{Arabidopsis Investigation} was annotated with the \textsl{BibliographicReferences} pointing to the paper describing the investigation and expected results\\
+  ~\\
+  A \textsl{Protocol} describes the ‘MapTwoPart’ method for QTL mapping and was annotated with the \textsl{URI} linking to the ‘MetaNetwork R-package’, which contains this method, and a \textsl{BibliographicReference} pointing to the paper\cite{Fu_2007, O_Connor_2008} that describes the MapTwoPart protocol\\
+  ~\\
+  A file with a Venn diagram describing the number of masses detected in each population was added as \textsl{FileAttachement} to the \textsl{Arabidopsis} metabolite \textsl{Investigation}\\
+  \hline
+\end{tabulary}
+\caption[Use cases of annotation data types]{Use cases of annotation data types.}
+\label{table:xgap_annotation_usecases}
+\end{table}
+
+Another feature of XGAP is the uniform treatment of all data on these subjects and traits.
+To understand basic data in XGAP, newcomers just have to learn that all data are stored as \textsl{Data} matrices with each \textsl{DataElement} describing an observation on \textsl{Subjects} and/or \textsl{Traits} (rows $\times$ columns).
+Unlike the proven matrix structures used in MAGE-TAB (tabular format for microarray gene expression experiments)\cite{Rayner_2006}, in XGAP these data can be on any \textsl{Trait} and/or \textsl{Subject} combination, that is, we did not create many variants of \textsl{DataElement} to accommodate each combination of \textsl{Trait} and \textsl{Subject} such as MAGE-TAB’s ExpressionDataElement (Probe $\times$ Sample), MassSpecDataElement (MassPeak $\times$ Sample), eQtlMappingDataElement (Marker $\times$ Probe), and so on.
+Instead, we store all these data using the generic type \textsl{DataElement} and limit extension to \textsl{Trait} and \textsl{Subject} only.
+This avoids the (combinatorial) explosion of \textsl{DataElement} extensions so researchers can provide basic data as common data matrices (of \textsl{DataElements}) and can still add particular annotations flexibly to the matrix row and columns to allow for (new) biotechnologies as demonstrated in the various \textsl{Trait} extensions in Figure \ref{fig:xgap_model}.
+Keeping this simple and uniform data structure greatly enhances data and software (re)usability and hence productivity, in line with the findings by Brazma \textsl{et al.}\cite{Brazma_2006} and Rayner \textsl{et al.}\cite{Rayner_2006} that the simple tabular structures underlying biological data should be exploited instead of making it overly complicated.
+
+After structural homogenization, such as provided by FuGE and XGAP, semantic queries are the remaining major barrier for integration of experimental metadata.
+This requires ontologies that describe the properties of the materials and also descriptions of experimental processes, data and instruments.
+The former are provided by species-specific ontologies that are available from various sources.
+The Ontology for BioMedical investigation\cite{xgap_pubchem} may provide a solution for the experimental descriptors and is being used in this context by, for example, the Immune Epitope Database\cite{Peters_2005}.
+To enable researchers to use these well understood descriptors, XGAP inherits from FuGE the mechanism of ‘annotations’, a special field to link any data object to one or more ontology terms.
+For example, researchers can annotate a \textsl{Gene} with one or more \textsl{OntologyTerms} if required, referring to standard ontology terms from OBO\cite{Smith_2007} or ontology terms defined locally.
+
+\section{Simple text-file format for data exchange}
+To enable data exchange using the XGAP model, we produced a simple text-file format (XGAP-TAB) based on the experience that for data formats to be used, data files should be easily created using simple Excel and text editor tools and closely resemble existing practices.
+This format is automatically derived from the model by requiring that all annotations on \textsl{Investigations}, \textsl{Protocols}, \textsl{Traits}, \textsl{Subjects}, and extensions thereof, are described as delimited text files (one file per data type) with columns matching the properties described in the object model and each row describing one data instance.
+Optionally, sets of \textsl{DataElements} can also be formatted as separate text matrices with row and column names matching these in the \textsl{Trait} and \textsl{Subject} annotation files, and with each matrix value matching one \textsl{DataElement}.
+The dimensions of each data matrix are then listed by a row in the annotations on \textsl{Data}.
+
+Figure \ref{fig:xgap_format} shows one investigation in the XGAP tabular data format with one delimited text file per data type - that is, there are files named ‘probe.txt’ and ‘individual.txt’, with each row describing a microarray probe or individual, respectively - and one text matrix file per set of \textsl{DataElements} - that is, there are files named ‘data/expressions.txt’ and ‘data/genotypes.txt’.
+The properties of each data matrix is then described in ‘data.txt’; that is, for the ‘data/expressions.txt’ there is a row in ‘data.txt’ that says that its columns refer to ‘individual.txt’, that its rows refer to ‘probe.txt’ and that its values are ‘decimal’.
+Raw data sets and data sets in other formats can be retained in a directory labeled ‘original’.
+
+\begin{figure}
+	\includegraphics[width=1.0\linewidth]{img/xgap_format}
+	\caption[Simple text file format]{Simple text file format. A whole investigation can be stored by using easy-to-create tabular text files for annotations or matrix-shaped text files for raw and processed data. Each ‘annotation’ file relates to one data type in the object model shown in Figure \ref{fig:xgap_model} - for example, the rows in the file ‘probe.txt’ will have the columns named in data type ‘Probe’. Each ‘data’ file contains data elements and has row names and column names referring to annotation files - for example, ‘genotypes.txt’ may refer to ‘marker.txt’ names as row names and ‘individual.txt’ names as column names. If convenient, constant values can be described in the constant.properties file such as ‘species\_name’.}
+	\label{fig:xgap_format}
+\end{figure}
+
+After proving its value in several proprietary projects, a growing array of public data sets are now available at\cite{xgap_datasets} demonstrating the use of XGAP-TAB\cite{Heap_2009, Bystrykh_2005, Li_2006, Keurentjes_2007, Stranger_2007b, Myers_2007}.
+
+\section{Easy to customize software infrastructure}
+A pilot software infrastructure is available at\cite{xgap_url} to help genotype-to-phenotype researchers to adopt XGAP as a backbone for their data and tool integration.
+We chose to use the MOLGENIS toolkit (biosoftware generator for MOLecular GENetics Information Systems; see Materials and methods) to auto-generate from the XGAP model: 1, an SQL (Structured Query Language for relational databases) file with all necessary statements for setting up your own, customized variant of the XGAP database; 2, application programming interfaces (APIs) in R, Java and Web Services that allow bioinformaticians to plug-in their R processing scripts, Taverna workflows\cite{Smedley_2008, xgap_taverna, Hull_2006} and other tools; 3, a bespoke web-based graphical user interface (GUI) by which researchers can submit and retrieve data and run plugged-in tools; and 4, import/export wizards to (un)load and validate data sets exchanged in XGAP-TAB format.
+The auto-generation process can be repeated to quickly customize XGAP from an extended model, for example, to accommodate a particular new type of measurement technology or experimental design.
+
+\subsection{Graphical user interface}
+Figure \ref{fig:xgap_gui} shows the GUI to upload, manage, find and download genotype and phenotype data to the database.
+The GUI is generated with a uniform ‘look-and-feel’, thereby lowering the barrier for novice users.
+Investigations can be described with all subjects, traits, data and protocol applications involved (1).
+(The numbers refer to steps in the figure.)
+Data can be entered using either the edit boxes or using menu-option ‘file$|$upload’ (2).
+This option enables upload of whole lists of traits and subjects from a simple tab-delimited format (3), which can easily be produced with Excel or R; MOLGENIS automatically generates online documentation describing the expected format (4).
+Subsequently, the protocol applications involved can be added with the resulting raw data (for example, genetic fingerprints, expression profiles) and processed data (for example, normalized profiles, QTL profiles, metabolic networks).
+These data can be uploaded, again using the common tab-delimited format or custom parsers (5) that bioinformaticians can ‘plug-in’ for specific file formats (for example, Affymetrix CEL files).
+The software behind the GUI checks the relationships between subjects, traits, and data elements so no ‘orphaned’ data are loaded into the database - for example, genetic fingerprint data cannot be added before all information is uploaded on the markers and subjects involved.
+Standard paths through the data upload process are employed to ensure that only complete and valid data are uploaded and to provide a consistent user experience.
+
+\begin{figure}
+	\includegraphics[width=1.0\linewidth]{img/xgap_gui}
+	\caption[Graphical User Interfaces]{Graphical User Interfaces. A user interface enables biologists to add and retrieve data and run integrated tools. Genotype and phenotype information can be explored by investigation, subjects, traits or data. Hyperlinks following cross-references of the object model point to related information. Items indicated by 1-9 are described in the main text. See Table \ref{table:xgap_gui_usecases} for uses of this GUI. See also our online demonstrator at\cite{xgap_url}.}
+	\label{fig:xgap_gui}
+\end{figure}
+
+Biologists can use the graphical user interface to navigate and retrieve available data for analysis.
+They can use the advanced search options (6) to find certain traits, subjects, or data.
+Using menu option ‘file|download’ (7) they can download visible/selected (8) data as tab-delimited files to analyze them in third party software.
+Bioinformaticians can ‘plug-in’ a custom-built screen (see ‘customization’ section) that allows processing of selected data inside the GUI, for example, visualizing a correlation matrix as a graph (9) without the additional steps of downloading data and uploading it into another tool.
+Biologists can create link-outs to related information, for example, to probes in GeneNetwork.org (not shown).
+Table \ref{table:xgap_gui_usecases} summarizes use cases of the graphical user interface.
+
+\begin{table}
+\begin{tabulary}{\linewidth}{L}
+  \hline
+  Navigate all \textsl{Investigations}, and for each \textsl{Investigation}, see the \textsl{Assays} and available \textsl{Data}\\
+  ~\\
+  Select a \textsl{Gene} and find all \textsl{Investigations} in which this \textsl{Gene} is regulated as suggested by significant eQTL \textsl{Data} (\textsl{P}-value $<$ 0.001)\\
+  ~\\
+  For a given \textsl{Locus}, select all \textsl{Genes} that have QTL \textsl{Data} mapping ‘in \textsl{trans}’; and this may be regulated by this \textsl{Locus}, for example, absolute(QTL locus - gene locus) $>$ 10 Mb and QTL \textsl{P}-value $<$ 0.001\\
+  ~\\
+  Download a selection of raw gene expression \textsl{Data} as a tab-delimited file (to import into other software)\\
+  ~\\
+  Upload \textsl{Investigation} information from tab-delimited files\\
+  ~\\
+  Upload Affymetrix \textsl{Assays} using custom *.CEL/*.CDF file readers\\
+  ~\\
+  Plot highly correlated metabolic network \textsl{Data} in a network visualization graph\\
+  ~\\
+  Define security levels for \textsl{Assays/Investigations} to ensure that appropriate data can be viewed only by collaborators, and not by other people\\
+  ~\\
+  A \textsl{MassPeak} has been identified to be ‘proline’ and we can follow the link-out \textsl{URI} to Pubchem\cite{xgap_pubchem}, because it was annotated to have ‘cid’ 614, to find information on structure, activity, toxicology, and more\\
+  \hline
+\end{tabulary}
+\caption[Use cases of the graphical user interface]{Use cases of the graphical user interface for biologists.}
+\label{table:xgap_gui_usecases}
+\end{table}
+
+\subsection{Application programming interfaces}
+\textsl{De facto} standard analysis tools are emerging, for example, tools for transcript data\cite{Carey_2006, Alberts_2007, Broman_2003} or metabolite abundance data\cite{Fu_2007} to mention just a few.
+These tools are typically implemented using the open source software for statistical analysis and graphics named R\cite{Ihaka_1996}.
+Bioinformaticians can connect their particular R or Java programs to the XGAP database using an API with similar functionality to the GUI, that is, using simple commands like ‘find’, ‘add’ and ‘update’ (R/API, Java/API).
+Scripts in other programming languages and workflow tools like Taverna\cite{Hull_2006} can use web services (SOAP/API) or a simple hyperlink-based interface (HTTP/API), for example, \url{http://my-xgap/api/find/Data?investigation=1} returns all data in investigation ‘1’.
+On top of this, conversion tools have been added to the R interface to read and write XGAP data to the widely used R/qtl package\cite{Broman_2003}.
+
+Figure \ref{fig:xgap_rapi} demonstrates how researchers can use the R/API to download (or upload) all trait/subject/data involved in their investigation from (or to) their XGAP database for (after) analysis in R.
+When XGAP is customized with additional data type variants, the APIs are automatically extended in the XGAP database instances by re-running the MOLGENIS generator, thus also allowing interaction with new data types in a uniform way.
+These new types can then be used as standard parameters for new analysis software written in R and Java.
+Table \ref{table:xgap_api_usecases} summarizes use of the application programming interface.
+
+\begin{figure}
+	\includegraphics[width=1.0\linewidth]{img/xgap_rapi}
+	\caption[Application programming interfaces]{Application programming interfaces. APIs enable bioinformaticians to integrate data and tools with XGAP using web services, R-project language, Java, or simple HTTP hyperlinks. The figure shows how scientists can use the R/API to upload raw investigation data (Scientist A) so another researcher can download these data and immediately use it for the calculation of QTL profiles and upload the results thereof back to the XGAP database for use by another collaborator (Scientist B). Note how ‘add.datamatrix’ enables flexible upload of matrices for any \textsl{Subject} or \textsl{Trait} combination; this function adds one row to \textsl{Data} for each matrix, and as many rows to \textsl{DataElement} as the matrix has cells. See Table \ref{table:xgap_api_usecases} for uses of these APIs.}
+	\label{fig:xgap_rapi}
+\end{figure}
+
+\begin{table}
+\begin{tabulary}{\linewidth}{L}
+  \hline
+  In R, parse a set of tab-delimited \textsl{Marker}, \textsl{Genotype} and \textsl{Trait} files and load them into the database (R/API)\\
+  ~\\
+  In R, retrieve all \textsl{Trait}, \textsl{Markers}, expression \textsl{Data}, and genotype \textsl{Data} from an investigation as data matrices, before QTL mapping with MetaNetwork (R/API)\\
+  ~\\
+  In Java, retrieve a list of QTL profile correlation \textsl{Data} to show them as a regulatory network graph (J/API)\\
+  ~\\
+  In Java, customize generated file readers to load specific file formats (J/API)\\
+  ~\\
+  In Taverna, retrieve \textsl{Genes} from XGAP to find pathway information in KEGG (WS/API)\\
+  ~\\
+  In Python, retrieve a list of QTL mapping \textsl{Data} using a hyperlink to XGAP (HTTP/API)\\
+  \hline
+  {\footnotesize KEGG: Kyoto Encyclopedia of Genes and Genomes.}\\
+\end{tabulary}
+\caption[Use cases of the application programming interface]{Use cases of the application programming interface for bioinformaticians}
+\label{table:xgap_api_usecases}
+\end{table}
+
+\subsection{Import/export wizards}
+A generated import tool takes care of checking the consistency of all traits, subjects and data that are provided in XGAP-TAB text files and loads them into the database.
+The entries in all files should be correctly linked, the data must be imported in the right order and the names and IDs need to be resolved between all the annotation files to check and link genes, microarray probes and gene expression to the data.
+The import program takes care of all these issues (conversion, relationship checks, dependency ordering, and so on).
+Moreover, the import program supports ‘transactions’, which ensures that all data inserts are rolled back if an import fails halfway, preventing incomplete or incorrect investigation data to be stored in the database.
+In a similar way, an export wizard is provided to download investigation data as a zipped directory of XGAP-TAB files.
+
+When XGAP is customized with additional data type variants, the import/export program is automatically extended by the MOLGENIS generator, ‘future-proofing’ the data format for new biotechnological profiling platforms.
+Moreover, the auto-generated import program can also be used as a template for parsers of proprietary data formats, such as implemented in parsers for the PED/MAP, HapMap, and GeneNetwork data.
+Collaborations are underway within EBI and GEN2PHEN to also enable import/export of MAGE-TAB\cite{Rayner_2006} files, the standard format for microarray experiments, of PAGE-OM\cite{xgap_pageom} files, a specialized format for genome-variation oriented genotype-to-phenotype experiments, and of ISA-TAB\cite{xgap_gen2phen} files, a generalized evolution of MAGE-TAB to represent all experimental metadata on any investigation, study and assay designed to be FuGE compatible.
+Also, convertors to ease retrieval and submission to public repositories like dbGaP are under development.
+It is envisaged that integration of all these formats will enable integrated analysis of experimental data from, for example, mouse and human experiments using various biotechnology platforms, which was previously near impossible for biological labs to implement.
+
+\subsection{Customizing XGAP}
+Customizations and extensions of the XGAP object model can be described in a single text file using MOLGENIS\cite{Swertz_2007, Swertz_2004} DSL.
+On the push of a button, the MOLGENIS generator instantly produces an extended version of the XGAP database software from this DSL file.
+A regression test procedure assists XGAP developers to ensure their extensions do not break the XGAP exchange format.
+Figure \ref{fig:xgap_custom}a shows how the addition of a \textsl{Metabolite} data entity as a new variant of \textsl{Trait} takes only a few lines in this DSL.
+Figure \ref{fig:xgap_custom}b shows how the GUI can be customized to suit a particular experimental process.
+Figure \ref{fig:xgap_custom}c shows how programmers can add a ‘plug-in’ program that is not generated by MOLGENIS but written by hand in Java (for example, a viewer that plots QTL profiles interactively).
+Moreover, use of Cascading Style Sheets (CSS) enables research projects to completely customize the look and feel of their XGAP.
+
+\begin{figure}
+	\includegraphics[width=0.97\linewidth]{img/xgap_custom}
+	\caption[Customizing XGAP]{Customizing XGAP. A file in MOLGENIS domain-specific language is used to describe and customize the XGAP database infrastructure in a few lines. \textbf{(a)} Shows how the addition of a \textsl{Metabolite} data entity as a new variant of \textsl{Trait} takes only a few lines in this DSL. \textbf{(b)} Shows how the GUI can be customized to suit a particular experimental process. \textbf{(c)} Shows how programmers can add a ‘plug-in’ program that is not generated by MOLGENIS but written by hand in Java.}
+	\label{fig:xgap_custom}
+\end{figure}
+
+All XGAP and MOLGENIS software can be downloaded for free under the terms of the open source license LGPL.
+Extended documentation on XGAP and MOLGENIS customization is available online at the XGAP and MOLGENIS wikis\cite{xgap_url, xgap_molgenurl}.
+
+\section{Conclusions}
+In this paper we report a minimal and extensible data infrastructure for the management and exchange of genotype-to-phenotype experiments, including an object model for genotype and phenotype data (XGAP-OM), a simple file format to exchange data using this model (XGAP-TAB) and easy-to-customize database software (XGAP-DB) that will help groups to directly use and adapt XGAP as a platform for their particular experimental data and analysis protocols.
+
+We successfully evaluated the XGAP model and software in a broad range of experiments: array data (gene expression, including tiling arrays for detection of alternative splicing, ChIP-on-chip for methylation, and genotyping arrays for SNP detection); proteomics and metabolomics data (liquid chromatography time of flight mass spectrometry (LC-QTOF MS), NMR); classical phenotype assays\cite{Heap_2009, Bystrykh_2005, Li_2006, Keurentjes_2006, Stranger_2007b, Myers_2007, Bailey_2008, Beamer_1999}; other assays for detection of genetic markers; and annotation information for panel, gene, sample and clone.
+Nontechnical partners successfully evaluated the practical utility by independently formatting and loading parts of their consortium data: EU-CASIMIR (for mouse; Table \ref{table:xgap_consortia}), EU-GEN2PHEN (for human; Table \ref{table:xgap_consortia}), EU-PANACEA (for \textsl{C. elegans}) and IOP-Brassica (for plants).
+A public subset of these data sets is available for download at\cite{xgap_url}.
+When needed we could quickly add customizations to the model, building on the general schema, and then use MOLGENIS to generate a new version of the software at the push of a button, for example, to support \textsl{NMR} methods as an extended type of \textsl{Trait}\cite{Fu_2009}.
+Furthermore we successfully integrated processing tools, such as a two-way communication with R/QTL\cite{Broman_2003} enabling QTL mapping on XGAP stored genotypes and phenotypes with QTL results stored back into XGAP.
+
+\linespread{1.00} % need to squeeze a bit to fit these tables nicely
+
+\begin{table}
+\small
+\begin{tabularx}{\linewidth}{ l X }
+  Consortium & Remit \\
+  \hline
+  \rule{0pt}{2.5ex}CASIMIR & The collection and distribution of large volumes of complex data typical of functional genomics is carried out by an increasing number of disseminated databases of hugely variable scale and scope. Combined analysis of highly distributed datasets provides much of the power of the approach of functional genomics, but depends on databases’ ability to exchange data with each other and on analytical tools with semantic and structural integrity. Agreement on the standards adopted by databases will inevitably be a matter of community consensus and to that end a recent coordination action funded by the European Commission, CASIMIR\cite{xgap_casimir}, is engaged in a community consultation on the nature of the technical and semantic standards needed. What has already become clear in use-case studies conducted so far is that whatever standards are adopted, they will inevitably remain dynamic and continue to develop, particularly as new data types are collected. Crucially, they should allow the open-ended development of analytical and datamining software, while integration of efforts to agree such standards and develop new software is essential.\\
+  \rule{0pt}{2.5ex}GEN2PHEN & Currently available genotype-to-phenotype (G2P) databases are few and far between, have great diversity of design, and limited or no interoperability between them. This arrangement provides no convenient way to populate the databases, no easy way to exchange, compare or integrate their content, and absolutely no way to search the totality of gathered information. In this context, the European Commission has recently funded the GEN2PHEN project\cite{xgap_gen2phen}, which intends to significantly improve the database infrastructure available within Europe for the collation, storage, and analysis of human and model-organism G2P data. This will be achieved by first developing various cutting-edge solutions, and then deploying these in conjunction with proven concepts, so as to transform the current elementary G2P database reality into a powerful networked hierarchy of interlinked databases, tools and standards.\\
+  \hline
+\end{tabularx}
+\caption[XGAP participating consortia]{XGAP participating consortia.}
+\label{table:xgap_consortia}
+\end{table}
+
+\linespread{1.05} % and back to normal
+
+Based on these experiences, we expect use of XGAP to help the community of genome-to-phenome researchers to share data and tools, notwithstanding large variations in their research aims.
+The XGAP data format can be used to represent and exchange all raw, intermediate and result data associated with an investigation, and an XGAP database, for instance, can be used as a platform to share both data and computational protocols (for example, written in the R statistical language) associated with a research publication in an open format.
+We envision a directory service to which XGAP users can publish metadata on their investigations either manually or automatically by configuring this option in the XGAP administration user interface.
+This directory service can then be used as an entry point for federated querying between the community of XGAPs to share data and tools.
+
+Groups that already have an infrastructure can assimilate XGAP to ease evolution of their existing software.
+Next to their existing user tools, they can ‘rewire’ algorithms and visual tools to also use the MOLGENIS APIs as data backend.
+Thus, researchers still have the same features as before, plus the features provided by the generated infrastructure (for example, data management GUIs, R/API) and connected tools (for example, R packages developed elsewhere).
+Moreover, much less software code needs to be maintained by hand when replacing hand-written parts by MOLGENIS-generated parts, allowing software engineers to add new features for researchers much more rapidly.
+
+We invite the broader community to join our efforts at the public XGAP.org wiki, mailing list and source code versioning system to evolve and share the best XGAP customizations and GUI/API ‘plug-in’ enhancements, to support the growing range of profiling technologies, create data pipelines between repositories, and to push developments in the directions that will most benefit research.
+
+\section{Materials and methods}
+Software modeling, auto-generation/configuration and component toolboxes are increasingly used in bioinformatics to speed up (bespoke) biological software development; see our recent review\cite{Swertz_2007}.
+For XGAP we required a software toolbox providing query interfaces, data management interfaces, programming interfaces to R and web services, simple data exchange formats and a minimal requirement of programming knowledge.
+The MOLGENIS modeling language and software generator toolbox\cite{Swertz_2007, xgap_molgenurl} was chosen as it combines all these features.
+
+Several alternative toolboxes were evaluated: BioMart\cite{xgap_molgenurl, Smedley_2009} and InterMine\cite{Lyne_2007} generate powerful query interfaces for existing data but are not suited for data management; Omixed\cite{xgap_omixed} generates programmatic interfaces onto databases, including a security layer, but lacks user interfaces; PEDRO/Pierre\cite{Jameson_2008} generates data entry and retrieval user interfaces but lacks programmatic interfaces; and general generators such as AndroMDA\cite{xgap_andromda} and Ruby-on-Rails\cite{xgap_ror} require much more programming/configuration efforts compared to tools specific to the biological domain.
+Turnkey\cite{O_Connor_2008} seemed to be closest to our needs: it emerged from the GMOD community having GUI and SOAP interfaces but lacks auto-generation of R interfaces and a file exchange format.
+
+Figure \ref{fig:xgap_generate} summarizes how MOLGENIS generates the XGAP da\-ta\-ba\-se software in three layers: database, API and GUI.
+MOLGENIS either generates a high-performance ‘server’ edition, which requires installation on server software, or a limited ‘standalone’ edition that runs on a desktop computer without any additional configuration.
+The database layer is generated as SQL files with ‘database CREATE statements’ that are loaded into either MySQL (server), PostgreSQL (server) or HSQLDB (standalone).
+Each data type in the XGAP object model (Figure \ref{fig:xgap_model}) is mapped to its own table - for example, there is a ‘Trait’ table.
+Each inheritance adds another table, for example, each \textsl{Gene} has an entry in the ‘Gene’ table and also in the ‘Trait’ table.
+One-to-many crossreferences between data types are mapped as foreign keys - for example, \textsl{Data} has a numeric field called ‘Investigation’ that must refer to the \textsl{foreign key} ‘molgenisid’ of \textsl{Investigation}.
+Many-to-many cross-references are mapped via a ‘link-table’ - for example, an additional table \textsl{‘mref\_import\_data’} is generated for two foreign keys to \textsl{Data} and \textsl{ProtocolApplication}, respectively, to model the \textsl{importData} relationship between them.
+The API layer is generated as Java files either served via Tomcat (server) or Jetty (standalone).
+A Java class is generated for each data type - for example, there is a class \textsl{Gene}.
+All data can be queried programmatically via a central \textsl{Database} class, that is, command \textsl{db.find(Gene.class)} returns all \textsl{Gene} objects in the database.
+To enhance performance, the API uses the ‘batched’ update methods of Java’s DataBase Connectivity (JDBC) package and the ‘multi-row-syntax’ of MySQL to allow inserts of 10,000s of data entries in a single command, an optimization that is 5 to 15 times quicker than standard one-by-one updates.
+The Java/API is exposed with a SOAP/API, HTTP/API and R/API, so XGAP can also be accessed via web service tools like Taverna, HTTP or R, respectively (accessible via hyperlinks in the GUI).
+The GUI layer is also generated as Java files.
+The GUI includes classes for each Menu and Form - for example, the \textsl{InvestigationForm} class generates a view- and editform for investigations in the GUI.
+The generation is steered from one XML file written in MOLGENIS DSL (partially shown in Figure \ref{fig:xgap_custom}).
+To enable FuGE extension, the FuGE model was automatically translated into MOLGENIS DSL.
+We therefore first downloaded the FuGE v1 MagicDraw file from\cite{xgap_fuge}, exported from MagicDraw to XMI 2.1, parsed the XMI using the EMF parser from Eclipse\cite{xgap_eclipse} and then automatically translated it into MOLGENIS DSL using a newly built XmiToMolgenis tool.
+Compatibility with the FuGE standard is ensured via inheritance; that is, \textsl{Investigation}, \textsl{Protocol}, \textsl{ProtocolApplication}, \textsl{Data} and \textsl{DimensionElement} in XGAP all extend FuGE data types of the same name.
+Further implementation details can be found at \cite{xgap_url, xgap_molgenurl}.
+
+\begin{figure}
+	\includegraphics[width=1.0\linewidth]{img/xgap_generate}
+	\caption[Auto-generation of XGAP software]{Auto-generation of XGAP software. Open source generator tools are used to produce a customized XGAP software infrastructure. 1, The XGAP object model is described using the MOLGENIS’ little modeling language (Figure \ref{fig:xgap_rapi}). 2, Central software termed MolgenisGenerate runs several generators, building on the MOLGENIS catalogue of reusable assets. 3, At the push of the button, the software code for a working XGAP implementation is automatically generated from the DSL file. GUI and APIs provide simple tools to add and retrieve data, while the reusable assets of MOLGENIS hide the complexity normally needed to implement such tools. For customization, only simple changes to the XGAP model file are required; the MOLGENIS generator takes care of rewriting all the necessary files of SQL and Java software code, saving time and ensuring a consistent quality.}
+	\label{fig:xgap_generate}
+\end{figure}
+
+\subsection*{Abbreviations}
+API: application programming interface; dbGaP: database of genotypes and phenotypes; DSL: domain-specific computer language; FuGE: Functional Genomics Experiment model; GMOD: Generic Model Organism Database; GUI: graphical user interface; LC/MS: liquid chromatography-mass spectrometry; MAGE-TAB: tabular format for microarray gene expression experiments; MOLGENIS: biosoftware generator for MOLecular GENetics Information Systems; NMR: proton nuclear magnetic resonance; QTL: quantitative trait locus; SOAP: web services using simple object access protocol; SQL: Structured Query Language for relational databases; XGAP: eXtensible Genotype And Phenotype platform.
+
+\subsection*{Acknowledgements}
+The authors thank CASIMIR (funded by the European Commission under contract number LSHG-CT-2006-037811,\cite{xgap_casimir}; Table \ref{table:xgap_consortia}), and GEN2PHEN, a FP7 project funded by the European Commission (FP7-HEALTH contract 200754,\cite{xgap_gen2phen}; Table \ref{table:xgap_consortia}).
+The authors also thank NWO (Rubicon Grant 825.09.008) for financial support.
+
+\subsection*{Authors’ contributions}
+MAS, ARJ, PS, KS, JMH, DS, EOB, HEP and RCJ compiled the functional requirements for the XGAP community platform and drafted the extensible data model.
+MAS, KJV, BMT, RAS, and MD refined and implemented the model using MOLGENIS, and added all parsers, and user interfaces.
+MAS and KW implemented Taverna compatible web services and GV, DA, KJV and MS implemented R-services.
+MAS, HEP and RCJ drafted the manuscript.
+All authors evaluated XGAP components in various settings.
+All authors read and approved the final manuscript.
