@@ -1,0 +1,400 @@
+\chapter[A web database for linking human disease to \textsl{C. elegans}]{WormQTL\textsuperscript{HD}: A web database for linking human disease to natural variation data in ~~~~~~~~~~~~~~~~~~ \textsl{C. elegans}}
+\chaptermark{Linking human disease to \textsl{C. elegans}}
+\label{chap:wormqtl}
+
+{ \Large \leftwatermark{
+\put(-67,-66.5){ 1 }
+\put(-67,-91.5){ 2 }
+\put(-67,-116.5){ 3 }
+\put(-76.5,-150){\includegraphics[scale=0.8]{img/thumbindex.eps}} \put(-67,-141.5){ {\color{white} 4 }}
+\put(-67,-166.5){ 5 }
+\put(-67,-191.5){ 6 }
+\put(-67,-216.5){ 7 }
+\put(-67,-241.5){ 8 }
+} \rightwatermark{
+\put(350.5,-66.5){ 1 }
+\put(350.5,-91.5){ 2 }
+\put(350.5,-116.5){ 3 }
+\put(346.5,-150){\includegraphics[scale=0.8]{img/thumbindex.eps}} \put(350.5,-141.5){ {\color{white} 4 }}
+\put(350.5,-166.5){ 5 }
+\put(350.5,-191.5){ 6 }
+\put(350.5,-216.5){ 7 }
+\put(350.5,-241.5){ 8 }
+}}
+
+\hfill \underline{Nucleic Acids Res.} 2014 Jan;42(Database issue):D794-801.
+
+\hfill DOI: \href{https://doi.org/10.1093/nar/gkt1044}{10.1093/nar/gkt1044}
+
+\hfill PubMed ID: \href{https://www.ncbi.nlm.nih.gov/pubmed/24217915}{24217915}
+
+\newpage
+
+\noindent
+K. Joeri van der Velde\textsuperscript{1,2,3}, Mark de Haan\textsuperscript{1,2,3,4}, Konrad Zych\textsuperscript{2}, Danny Arends\textsuperscript{2},
+L. Basten Snoek\textsuperscript{5}, Jan E. Kammenga\textsuperscript{5}, Ritsert C. Jansen\textsuperscript{2}, Morris A. Swertz\textsuperscript{1,2,3,*} and Yang Li\textsuperscript{2,3,*}\\
+
+\noindent
+1. Genomics Coordination Center, University of Groningen, University Medical Center Groningen, P.O. Box 30001, 9700 RB Groningen, The Netherlands.\\
+2. Groningen Bioinformatics Center, University of Groningen, P.O. Box 11103, 9700 CC Groningen, The Netherlands.\\
+3. Department of Genetics, University of Groningen, University Medical Center Groningen, P.O. Box 30001, 9700 RB Groningen, The Netherlands.\\
+4. Department of Bioinformatics, Hanze University of Applied Sciences, Groningen, Zernikeplein 11, 9747 AS, The Netherlands.\\
+5. Laboratory of Nematology, Wageningen University, 6708 PB Wageningen, The Netherlands.\\
+
+\noindent
+Received August 14, 2013; Revised October 9, 2013; Accepted October 10, 2013
+\\~\\
+*To whom correspondence should be addressed. Tel: +31 50 367100; Fax: +31 50 361 7230; Email: m.a.swertz@rug.nl\\
+Correspondence may also be addressed to Yang Li. Tel: +31 50 367100; Fax: +31 50 361 7230; Email: yang.li@rug.nl
+\\~\\
+The authors wish it to be known that, in their opinion, the first two authors should be regarded as Joint First Authors.
+
+\section*{Abstract}
+Interactions between proteins are highly conserved across species.
+As a result, the molecular basis of multiple diseases affecting humans can be studied in model organisms that offer many alternative experimental opportunities.
+One such organism ---\textsl{Caenorhabditis elegans}--- has been used to produce much molecular quantitative genetics and systems biology data over the past decade.
+We present WormQTL\textsuperscript{HD} (Human Disease), a database that quantitatively and systematically links expression Quantitative Trait Loci (eQTL) findings in \textsl{C. elegans} to gene-disease associations in man.
+WormQTL\textsuperscript{HD}, available online at \url{http://www.wormqtl-hd.org}, is a user-friendly set of tools to reveal functionally coherent, evolutionary conserved gene networks.
+These can be used to predict novel gene-to-gene associations and the functions of genes underlying the disease of interest.
+We created a new database that links \textsl{C. elegans} eQTL data sets to human diseases (34,337 gene-disease associations from OMIM, DGA, GWAS Central and NHGRI GWAS Catalogue) based on overlapping sets of orthologous genes associated to phenotypes in these two species.
+We utilized QTL results, high-throughput molecular phenotypes, classical phenotypes and genotype data covering different developmental stages and environments from WormQTL database.
+All software is available as open source, built on MOLGENIS and xQTL workbench.
+
+\section{Introduction}
+Many exciting data sets have been collected in recent years for \textsl{Cae\-nor\-hab\-di\-tis elegans}, a free-living, non-parasitic soil-related nematode that feeds on the bacteria of decaying organic matter.
+This worm has many useful features that have made it one of the most studied model organisms: it is small and easy to house, has a short generation time and is transparent.
+As a consequence, its genomic information is now available \cite{The_C_nbsp_elegans_Sequencing_Consortium_1998}, and the developmental path and function of almost every cell in its body has been described \cite{Gerstein_2010}.
+In addition, recent genetical genomics studies in \textsl{C. elegans} have revealed thousands of genomic regions (loci) that are associated to the quantitative variation in a diverse range of phenotypes, such as gene expression [expression Quantitative Trait Loci (eQTLs)] \cite{Gaertner_2010,Kammenga_2008,Palopoli_2008,Li_2010,Vinuela_2010,Vinuela_2012,Rockman_2010}, lifespan \cite{Doroszuk_2009}, development \cite{Gutteling_2007,Gutteling_2006,Kammenga_2007}, stress resistance \cite{Rodriguez_2012,Harvey_2008}, behaviour \cite{McGrath_2009,Reddy_2009}, dauer formation \cite{Harvey_2008,Green_2013a} and sensitivity to RNAi treatments \cite{Elvin_2011}.
+
+Genes having eQTLs mapping to the same genomic region (i.e. hotspot) are possibly involved in the same biological pathway/process. Palopoli \textsl{et al.} \cite{Palopoli_2008} have shown that biochemical processes and molecular functions of genes are generally highly conserved.
+Lee \textsl{et al.} \cite{Lee_2008} have shown that using the OMIM database \cite{Hamosh_2000} (\url{http://omim.org/}) and orthologue mapping data from INPARANOID \cite{Ostlund_2009}, it is possible to infer new gene-gene interactions that are responsible for a certain disease in man from model organism data.
+McGary \textsl{et al.} \cite{McGary_2010} have shown that the conservation level between \textsl{C. elegans} and man is sufficient to infer gene-gene interactions in man from worm data.
+Even though the global disease phenotypes may not be at all comparable, the molecular basis may be common (e.g. breast cancer and high male incidence of progeny).
+For example, research on stress response in \textsl{C. elegans} has provided detailed insight into the genetic and molecular mechanisms underlying complex human diseases \cite{Rodriguez_2013}.
+In addition, Shaye and Greenwald \cite{Shaye_2011} have generated a compendium of \textsl{C. elegans} genes with human orthologues using four orthology prediction programmes for identifying \textsl{C. elegans} orthologues of human disease genes for potential functional analysis.
+As a result, linking \textsl{C. elegans} and human data could help to understand the mechanisms underlying many human diseases.
+
+To facilitate the exploitation of the worm eQTL data for human disease research we developed a new database, WormQTL\textsuperscript{HD}, which quantitatively and systematically links many eQTLs findings in \textsl{C. elegans} to gene-disease associations in human.
+The database is based on the detection of the overlapping sets of orthologous genes associated with different phenotypes, or ‘phenologs’ \cite{McGary_2010} between these two species.
+The data, mainly eQTL results, were taken from different platforms (e.g. Agilent) and experiments (e.g. developmental stages).
+We provide a set of web-based analysis tools to search the database and explore phenotypes based on gene orthologues between worm and man.
+The result can be downloaded and visualized in a comprehensive yet clear way. All data and tools can be accessed via a public web user interface, as well as basic programming interfaces, which were built using the MOLGENIS biosoftware toolkit \cite{Swertz_2010a}.
+
+To our knowledge, this is the first online database for the systematic investigation of \textsl{C. elegans} phenotype equivalents of human diseases by integrating known disease-gene associations, gene orthologue data, molecular phenotypes and QTL results.
+WormQTL\textsuperscript{HD} allows researchers to explore these complex data in a user-friendly way, finding new genes, interactions and loci for human disease models.
+
+WormQTL\textsuperscript{HD} is freely accessible without registration and is hosted at \url{http://www.wormqtl-hd.org}.
+All underlying software is open source and can be downloaded and freely used, for example, as a local mirror of the database and/or to host new studies, which can be uploaded using XGAP format \cite{Swertz_2010b}.
+Below we describe the results, methods used to implement the system and future plans.
+
+
+\begin{figure}
+	\includegraphics[scale=0.4]{img/wormqtl_mapping}
+	\caption[Human and worm data integration]{Human and worm data integration. WormQTL\textsuperscript{HD} was compiled using data derived from WormQTL, WormBase, OMIM, DGA, GWAS Catalogue and GWAS Central.}
+	\label{fig:wormqtl_mapping}
+\end{figure}
+
+
+\section{Implementation}
+WormQTL\textsuperscript{HD} was compiled using data from six sources that are described below:
+(I) WormQTL \cite{Snoek_2012}\footnote{The original paper erroneously cited \cite{Rodriguez_2013,Volkers_2013} here.}, (II) WormBase Phenotypes (\cite{Yook_2011}, (III) Online Mendelian Inheritance in Man (OMIM) \cite{Hamosh_2000}, (IV) The Disease and Gene Annotations (DGA) \cite{Peng_2012}, (V) NHGRI GWAS Catalogue \cite{Hindorff_2009} (\url{http://www.genome.gov/gwastudies}) and (VI) GWAS Central \cite{Thorisson_2009,Brookes_2000} (Figure \ref{fig:wormqtl_mapping}).
+(I) WormQTL (\url{http://www.wormqtl.org}) contains many published ‘genetical genomics’ experiments and consists of 47 public data sets with eQTL data on 500 panels (Recombinant Inbred Lines or natural strains), 68,452 microarray probes, 1,630 samples and 1,579 markers.
+The tools that were present in WormQTL, such as the QTL Finder and the Genome Browser, are also available in WormQTL\textsuperscript{HD}.
+(II) WormBase is ‘an international consortium of biologists and computer scientists dedicated to providing the research community with accurate, current, accessible information concerning the genetics, genomics and biology of C. elegans and related nematodes’ (WormBase Mission statement, Todd Harris, 26 November 2012). From WormBase, we downloaded all the gene-phenotype associations (total 227,216) via WormMart.
+(III) OMIM is one of the most popular databases containing 14,164 human gene-disease associations.
+(IV) The DGA database (2,961 associations) was started in 2013 and claims to be more comprehensive than OMIM.
+(V) The NHGRI GWAS Catalogue is a collection of 12,925 SNP-to-disease associations published in GWAS studies with at least 100,000 assayed SNPs and a \textsl{P}-value of $<$1.0 x 10\textsuperscript{-5}. The SNPs were linked to human genes by the authors of the original papers that have been included in the catalogue.
+(VI) GWAS Central \cite{Thorisson_2009,Brookes_2000,Fredman_2002} is a database of summary level findings from genetic association studies.
+The authors of GWAS Central gathered and curated many datasets from public domain projects, and supplied us with a list of 4,487 gene-disease associations having a \textsl{P}-value of $<$1.0 x 10\textsuperscript{-10}.
+Because of the non-overlapping information in these four sources of human genes linked to disease, they are all provided and can be selected by the user.
+Human and worm data are connected based on the detection of orthologous genes in these two species. We downloaded all INPARANOID orthologues between \textsl{C. elegans} and \textsl{Homo sapiens} with a 100\% bootstrap value.
+The bootstrap value indicates how often the pair is found as reciprocally best matched in a sampling with a replacement procedure that was applied to the original Blast alignment.
+
+To explore this database, WormQTL\textsuperscript{HD} features four major searching tools for different purposes. The starting points are summarized in Figure \ref{fig:wormqtl_overview} and described in detail below, followed by a short summary of the software used.
+
+
+\begin{figure}
+	\includegraphics[width=1.0\linewidth]{img/wormqtl_overview}
+	\caption[Cross-experiment search]{Cross-experiment search. WormQTL\textsuperscript{HD} provides four tools to explore the database: mapping human diseases to worm QTLs (Disease2QTL); mapping a worm genomic region to human diseases (Region2disease); mapping worm QTLs to human diseases (QTL2disease); and linking worm phenotypes to human diseases (ComparePheno).}
+	\label{fig:wormqtl_overview}
+\end{figure}
+
+
+\subsection[Tool 1: ‘Disease2QTL’]{Tool 1: ‘Disease2QTL’, mapping human diseases to worm eQTLs}
+Exploring the genetic variation data for human gene orthologues in worm can provide useful insight into the function and regulation of human diseases. WormQTL\textsuperscript{HD} provides a tool for human geneticists to explore novel causal genes for a specific human disease by using worm QTL findings.
+Using a selection of one or multiple human diseases (from OMIM, DGA, NHGRI GWAS Catalogue or GWAS Central), a ‘shopping’ page is presented with worm gene expression probes and their human disease association.
+More information about the gene orthology mapping and association studies can be browsed.
+Users can put individual probes, or all probes at once, into the ‘shopping cart’.
+Subsequently, they can explore the genetic variation of those genes across the different experiments and studies that are stored in the WormQTL\textsuperscript{HD} database.
+The shopping cart is a central place in WormQTL\textsuperscript{HD} where users can see the various worm gene probes that they have selected, and create QTL/eQTL visualizations from the items in the shopping cart using ‘Plot QTLs’.
+
+Using the ‘Plot QTLs’ function, researchers can test if genes associated with the selected diseases have any QTLs and if they map to a common genomic region.
+Shared QTLs suggest that those genes are regulated by the same genetic variation and are possibly involved in the same biological pathways.
+The genes with \textsl{cis}-QTLs in that genomic region are used as candidate genes in several types of studies \cite{Keurentjes_2007,Terpstra_2010,Snoek_2013}.
+The same approach can be used for causal genes of human diseases.
+Alternatively, users can also select worm phenotypes (1,504 total) instead of human diseases as a starting point. The shopping window is presented in exactly the same way as before, so users can browse human diseases from a worm phenotype perspective instead, or simply shop for probes of choice for a given worm phenotype and plot their QTLs, without considering any human disease relation.
+
+\subsection[Tool 2: ‘Region2disease’]{Tool 2: ‘Region2disease’, mapping worm genomic regions to human diseases}
+Researchers can link worm genomic regions to human diseases. This approach starts by selecting a region in the worm genome, e.g. a known ‘eQTL hotspot’, where a number of eQTLs are located.
+The region is selected by providing the chromosome name, start and end base pair positions.
+Users can quickly define a region of interest by using the location of any \textsl{C. elegans} gene.
+The database then returns all worm gene expression probes that are annotated in this region.
+From the probes, the corresponding worm genes are gathered, plus their human orthologues. The user is presented with a table containing the human-worm orthology and disease/phenotype associations in man and worm.
+After shopping for some or all of the relevant probes, users can choose to visualize eQTL results for them (similar to Tool 1), or perform a disease enrichment test.
+
+The hypergeometric gene overlap test \cite{Rivals_2006} to discover phenologs (phenotype orthologues) can be performed by clicking on ‘Disease enrichment’.
+All probes in the region are linked to their corresponding genes in worm, and a test is performed whether this entire group of genes is significantly ‘enriched’ for one or more human diseases by overlapping orthologous groups and worm and human genes. The statistical significance of phenologs (\textsl{P}-value) is listed in an output table.
+A significant result means that the input genomic region shares a significantly larger set of orthologous genes with a human disease than would be expected at random, even if the expressed phenotype in worm appears very different from the human disease phenotype (e.g. breast cancer and fertility).
+This tool can provide novel interpretation of genomic regions of interest.
+
+\subsection[Tool 3: ‘QTL2disease’]{Tool 3: ‘QTL2disease’, mapping worm QTLs to human diseases}
+Researchers can start by selecting a QTL/eQTL in worm to find potential relationships with human diseases.
+We can select QTLs of interest based on three criteria: a selected experiment, a certain threshold for significance (LOD score) and a specific gene expression probe with a suspected QTL.
+If there is a QTL with a LOD score above the threshold, we automatically select the closest 50 probes on both sides of the highest peak marker.
+These probes are presented and available for browsing, shopping and plotting of QTLs, or can be the input for the disease enrichment test to find phenologs.
+
+\subsection[Tool 4: ‘ComparePheno’]{Tool 4: ‘ComparePheno’, linking worm phenotypes to human diseases}
+WormQTL\textsuperscript{HD} also provides a tool that links human diseases to classical worm phenotypes (and \textsl{vice versa}) to discover phenologs in a systematic way.
+Users begin by selecting one or more human diseases and clicking on ‘Compare’.
+The genes associated with the selected disease are tested for enrichment against all sets of known associated genes for worm phenotypes. The result reveals functionally coherent, evolutionarily conserved gene networks.
+
+Alternatively, users can also start by selecting worm phenotypes, which are tested against human diseases. In addition to cross-species testing, results of within-species disease enrichment are also available (e.g. to find the closest related human disease for another input human disease).
+
+\subsection{Software used}
+All the software has been implemented using the open source ‘MOLecular GENetics Information Systems’— MOLGENIS—toolkit \cite{Swertz_2010a}.
+The MOLGENIS toolkit is Java-based software to generate tailored research infrastructure on-demand \cite{Swertz_2007}.
+In particular, we built on an existing MOLGENIS application, the extensible xQTL workbench \cite{Arends_2012} and the R/qtl QTL mapping and visualization package for the R language \cite{Broman_2003,Arends_2010}.
+All software is available as open source on \url{http://github.com/molgenis} for others to reuse locally.
+Related technical documentation is available at \url{http://www.molgenis.org/xqtl}\footnote{The URL in the original paper is no longer active and was updated here.}, \url{http://www.rqtl.org} and \url{http://www.molgenis.org}.
+
+
+
+\section{Results}
+To demonstrate the added value of WormQTL\textsuperscript{HD}, we have reproduced findings from known studies and have shown that novel insights and hypotheses can be achieved with little time and effort.
+Subsequently, we performed a broad-sweep disease-enrichment test to find all non-evident phenologs and to explore which new putative candidate genes for human diseases could be elucidated for future research.
+
+\subsection[Case 1: McGary \textsl{et al.}]{Case 1: Linking disease to worm phenotype from McGary \textsl{et al.} \cite{McGary_2010}}
+McGary \textsl{et al.} performed a phenolog mapping between the high incidence of male \textsl{C. elegans} progeny to human breast/ovarian cancers. Of 4,649 total orthologues, McGary \textsl{et al.} reported 3 overlapping genes of 12 human disease-associated genes and 16 worm phenotype-associated genes—which is a significant enrichment (hypergeometric test \textsl{P}-value of $\leq$ 7.2 x 10\textsuperscript{-6}).
+From the 13 worm phenotype-associated genes that were not overlapping, 9 had orthologues that had already been linked to breast cancer in the primary literature.
+They implicated the remaining four genes as new breast cancer candidates. We replicated these findings using the ComparePheno tool of WormQTL\textsuperscript{HD}, searching for the WormBase phenotype ‘high incidence male progeny’.
+The first human disease among the results is ‘\{Breast cancer, susceptibility to\}, 114480 (3)’ from OMIM. Our tool reported 2 overlapping genes of 4 human disease-associated genes and 63 genes from the worm phenotype.
+This resulted in a \textsl{P}-value $\leq$ 1.4 x 10\textsuperscript{-3} (uncorrected). The second best human hit in the results is ‘malignant neoplasm of ovary’ from DGA.
+We found two overlapping genes of six ovarian cancer associated genes, resulting in a \textsl{P}-value $\leq$ 3.41 x 10\textsuperscript{-3} (uncorrected).
+ComparePheno also indicated enrichment of these categories.
+The \textsl{P}-values are ‘less significant’ than McGary et al. because (i) their definition of ‘high incidence male progeny’ included only 16 rather than 63 genes and (ii) they used an older INPARANOID version, so the overlap test was performed on a different orthologue mapping.
+Together, these results from our  database do indeed replicate their findings.
+See Online Use Case 1 on the Help page to repeat this case.
+
+\subsection[Case 2: Li \textsl{et al.}]{Case 2: Worm eQTL hotspot from two temperature expression data from Li \textsl{et al.} \cite{Li_2006}}
+Li \textsl{et al.} \cite{Li_2006} found an eQTL hotspot (77.56Mb on chromosome V) on the worm genome in which genetic variation is associated with the expression of 66 genes, while these genes are located elsewhere on the genome.
+This indicates that these genes are possibly involved in the same biological process/pathway and potentially share a regulatory element.
+They may be physically located on the eQTL hotspot, which controls gene expression responding to different ambient temperatures.
+First, we used the Region2disease tool and input positions ChrV:15430739-16430739 (a non-cumulative 1 Mb region around the hotspot).
+We put all 931 probes located in this region in the shopping cart, and selected ‘Disease enrichment’.
+The best hit was ‘Response to antineoplastic agents’ (agents used in chemotherapeutic treatment of cancer) from GWAS Catalogue (\textsl{P}-value $\leq$ 4.92 x 10\textsuperscript{-3}, uncorrected).
+For this hit, the associated human gene, \textsl{PPP2R5E}, is orthologous to WBGene00012348 (\textsl{pptr-1}) present in this region. The best WormBase hit is ‘thermotolerance increased’ (\textsl{P}-value $\leq$ 1.5 x 10\textsuperscript{-2}, uncorrected), also via association with \textsl{pptr-1}.
+Padmanabhan \textsl{et al.} \cite{Padmanabhan_2009} showed that \textsl{pptr-1} is involved in regulating subcellular localization and transcriptional activity of the forkhead transcription factor \textsl{daf-16}.
+Rodriguez \textsl{et al.} \cite{Rodriguez_2013} reviewed the role of heat stress response experiments in \textsl{C. elegans} for detecting human disease genes.
+They reported that \textsl{daf-16} in worms controls lifespan and stress response.
+In humans, the \textsl{daf-16} orthologue \textsl{FOXO3A} is associated with aging and prevalence of cancer \cite{Willcox_2008}.
+Using the Disease2QTL tool, a search for ‘Response to antineoplastic agents’ results in six probes for orthologues of \textsl{PPP2R5E} (WBGene00012348) and \textsl{ACOX3} (WBGene00019060).
+We selected them all and plotted the QTLs.
+This revealed a highly significant (LOD $>$ 50) \textsl{cis}-eQTL for \textsl{pptr-1} in the Rockman \textsl{et al.} \cite{Rockman_2010} dataset.
+Given all the evidence, we believe \textsl{pptr-1} might be an interesting candidate in the further development of a temperature-based \textsl{C. elegans} model for understanding human cancer and developing potential therapeutic drugs.
+Moreover, it shows that combining the ‘Region2disease’ and ‘Disease2QTL’ tools can lead to an interesting hypothesis ready for experimental validation.
+See Online Use Case 2 on the Help page to reproduce this case.
+
+\subsection[Case 3: Rodriguez \textsl{et al.}]{Case 3: Osmotic stress as a model for Bar\-det-\-Biedl syndrome from Rodriguez \textsl{et al.} \cite{Rodriguez_2013}}
+Rodriguez \textsl{et al.} proposed hypertonic or osmotic stress in \textsl{C. elegans} as a model to study human diseases related to protein aggregation, such as Alzheimer’s and Parkinson’s.
+Hypertonic stress due to loss of water causes an intracellular ionic imbalance, which leads to rapid accumulation of organic osmotic glycerol and accumulation of damaged proteins.
+Shaye and Greenwald \cite{Shaye_2011} showed that \textsl{osm-12} (associated with osmotic stress response) is orthologous to \textsl{BBS7} in man, which is associated to Bardet-Biedl syndrome \cite{Badano_2003}.
+We used the Disease2QTL tool to look for QTLs associated with Bardet-Biedl syndrome by selecting all ‘Bardet-Biedl syndrome’ entries (seven in total) from OMIM.
+When we plotted the QTLs in worm for these entries, three significant eQTLs (LOD $>$ 5) were found for \textsl{osm-12} (in \textsl{cis}), \textsl{bbs-5} (also in \textsl{cis}) and \textsl{bbs-2} (in \textsl{trans}).
+The strongest QTL (LOD $>$ 6) was found for \textsl{bbs-5}, reported by probe AGIUSA3442 in the Rockman \textsl{et al.} dataset.
+We used the QTL2disease tool to investigate this QTL further. It revealed a nearby, very significant eQTL (LOD $>$ 10) for a gene named \textsl{T07C4.10}, which can be investigated further as a potential candidate for this disease model.
+See Online Use Case 3 on the Help page to replicate this example.
+
+\subsection[Novel disease-gene associations]{Novel disease-gene associations by ‘broad-sweep’ disease-enrichment test}
+We performed hypergeometric gene overlap tests to find phenologs between all worm phenotypes versus all human diseases.
+Table \ref{table:wormqtl_enrichment} lists the 15 most significant hits for human diseases that have significant gene overlap with worm phenotypes (see Tables \ref{table:wormqtl_enrichment_suppl1} and \ref{table:wormqtl_enrichment_suppl2} for the top 100).
+New candidate genes for human diseases can be discovered from phenologs by investigating human orthologues of worm genes that did not overlap with known human genes of the disease of interest.
+
+McGary \textsl{et al.} \cite{McGary_2010} reported ‘Zellweger syndrome’ in man to be a phenolog with ‘Reduced number of peroxisomes’ in yeast (\textsl{P}-value $<$ 1.0 x 10\textsuperscript{-9}).
+Our best hit was ‘Zellweger syndrome’ with ‘peroxisome physiology variant’ in worm (\textsl{P}-value $<$ 3.6 x 10\textsuperscript{-10}).
+Encouragingly, certain top hits such as ‘coenzyme Q depleted’ in worm versus ‘Coenzyme Q10 deficiency’ in man, and ‘spontaneous mutation rate increased’ in worm versus ‘Mismatch repair cancer syndrome’ in man make sense, thereby validating this approach and adding credibility to potentially non-evident human disease models.
+
+\begin{sidewaystable}
+\footnotesize
+\begin{tabulary}{\linewidth}{LLRRRL}
+  Phenotype\textsubscript{1} (Ce) & Phenotype\textsubscript{2} (Hs) & \textsl{n}\textsubscript{1} & \textsl{n}\textsubscript{2} & \textsl{k} & \mbox{\textsl{P}-value~~~~~~} \\
+  \hline
+  Peroxisome physiology variant & Zellweger syndrome, 214100 (3) [OMIM] & 3 & 4 & 3 & 3.58E-10 \\
+  Coenzyme Q depleted & Coenzyme Q10 deficiency, 607426 (3) [OMIM] & 9 & 3 & 3 & 7.53E-09 \\
+  Spontaneous mutation rate increased & Mismatch repair cancer syndrome, 276300 (3) [OMIM] & 42 & 4 & 4 & 9.88E-09 \\
+  Mitochondrial metabolism variant & Coenzyme Q10 deficiency, 607426 (3) [OMIM] & 17 & 3 & 3 & 6.09E-08 \\
+  AWA odorant chemotaxis defective & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 3 & 2 & 2 & 3.64E-07 \\
+  Peroxisome physiology variant & Adrenoleukodystrophy, neonatal, 202370 (3) [OMIM] & 3 & 3 & 2 & 1.09E-06 \\
+  AWC odorant chemotaxis defective & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 5 & 2 & 2 & 1.21E-06 \\
+  Germ nuclei rachis & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 6 & 2 & 2 & 1.82E-06 \\
+  Excretory cell development variant & Rheumatoid arthritis [GWAS Catalogue] & 3 & 5 & 2 & 3.64E-06 \\
+  Bacterially unswollen & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 11 & 2 & 2 & 6.67E-06 \\
+  Organism starvation response variant & Ovarian cancer, somatic, 604370 (3) [OMIM] & 12 & 2 & 2 & 8.00E-06 \\
+  Neuron development variant & Diastolic blood pressure [GWAS Catalog] & 17 & 11 & 3 & 9.85E-06 \\
+  Ventral closure defective & Wiskott-Aldrich syndrome [DGA] & 8 & 3 & 2 & 1.02E-05 \\
+  Egg laying imipramine resistant & Bone mineral density [GWAS Catalog] & 26 & 23 & 4 & 1.08E-05 \\
+  mRNA export variant & disease by infectious agent [DGA] & 4 & 6 & 2 & 1.09E-05 \\
+  \hline
+\end{tabulary}
+\caption[Top 15 results for the disease enrichment]{Top 15 results for the ‘broad-sweep’ disease enrichment. \textsl{n}\textsubscript{1} indicates the number of orthologues in \textsl{C. elegans} (Ce) with phenotype\textsubscript{1}, \textsl{n}\textsubscript{2} the number in \textsl{H. sapiens} (Hs) with phenotype\textsubscript{2} and k the number in both sets. The significance of each phenolog is assessed by the hypergeometric probability (\textsl{P}-value).}
+\label{table:wormqtl_enrichment}
+\end{sidewaystable}
+
+\linespread{1.00} % need to squeeze a bit to fit these tables nicely
+
+\begin{table}
+\tiny
+\begin{tabulary}{\linewidth}{LLRRRL}
+  Phenotype\textsubscript{1} (Ce) & Phenotype\textsubscript{2} (Hs) & \textsl{n}\textsubscript{1} & \textsl{n}\textsubscript{2} & \textsl{k} & \mbox{\textsl{P}-value~~~~~~} \\
+  \hline
+  constipated & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 14 & 2 & 2 & 1.10E-05 \\
+  neuron development variant & Blood Pressure [GWAS Central] & 17 & 12 & 3 & 1.31E-05 \\
+  reproductive system development variant & Palmitoleic acid (16:1n-7) plasma levels [GWAS Catalog] & 6 & 5 & 2 & 1.82E-05 \\
+  germ cell morphology variant & Wiskott-Aldrich syndrome [DGA] & 112 & 3 & 3 & 2.04E-05 \\
+  life span variant & Coenzyme Q10 deficiency, 607426 (3) [OMIM] & 114 & 3 & 3 & 2.15E-05 \\
+  organism starvation response variant & Colorectal cancer, somatic, 114500 (3) [OMIM] & 12 & 3 & 2 & 2.40E-05 \\
+  gastrulation variant & vaccinia [DGA] & 21 & 2 & 2 & 2.55E-05 \\
+  neuron development variant & Blood pressure [GWAS Catalog] & 17 & 15 & 3 & 2.69E-05 \\
+  epithelial morphology variant & Wiskott-Aldrich syndrome [DGA] & 13 & 3 & 2 & 2.83E-05 \\
+  osmotic stress response variant & Chronic obstructive pulmonary disease [GWAS Catalog] & 13 & 3 & 2 & 2.83E-05 \\
+  radiation induced reproductive cell death variant & Mismatch repair cancer syndrome, 276300 (3) [OMIM] & 10 & 4 & 2 & 3.26E-05 \\
+  distal tip cell development variant & Pulmonary function (interaction) [GWAS Catalog] & 6 & 7 & 2 & 3.81E-05 \\
+  dauer arrest variant & Ovarian cancer, somatic, 604370 (3) [OMIM] & 26 & 2 & 2 & 3.94E-05 \\
+  bag of worms & Heart Rate [GWAS Central] & 29 & 2 & 2 & 4.92E-05 \\
+  halothane hypersensitive & Leigh syndrome, 256000 (3) [OMIM] & 6 & 8 & 2 & 5.07E-05 \\
+  vulvaless & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 30 & 2 & 2 & 5.27E-05 \\
+  transgene expression variant & Pulmonary function (interaction) [GWAS Catalog] & 147 & 7 & 4 & 5.30E-05 \\
+  sodium chloride chemotaxis defective & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 31 & 2 & 2 & 5.64E-05 \\
+  synaptogenesis variant & Hippocampal atrophy [GWAS Catalog] & 13 & 4 & 2 & 5.65E-05 \\
+  body size variant & Inflammatory bowel disease [GWAS Catalog] & 11 & 30 & 3 & 5.77E-05 \\
+  gastrulation variant & Wiskott-Aldrich syndrome [DGA] & 21 & 3 & 2 & 7.61E-05 \\
+  pathogen susceptibility increased & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 36 & 2 & 2 & 7.64E-05 \\
+  level of protein expression variant & hepatitis B [DGA] & 39 & 2 & 2 & 8.98E-05 \\
+  male gonad morphology variant & Bone mineral density [GWAS Catalog] & 3 & 23 & 2 & 9.17E-05 \\
+  flaccid & Electrocardiographic traits [GWAS Catalog] & 13 & 5 & 2 & 9.41E-05 \\
+  paraquat resistant & Ovarian cancer, somatic, 604370 (3) [OMIM] & 41 & 2 & 2 & 9.94E-05 \\
+  reproductive system development variant & Metabolic traits [GWAS Catalog] & 6 & 11 & 2 & 9.94E-05 \\
+  spontaneous mutation rate increased & Muir-Torre syndrome, 158320 (3) [OMIM] & 42 & 2 & 2 & 1.04E-04 \\
+  dauer formation variant & Ovarian cancer, somatic, 604370 (3) [OMIM] & 43 & 2 & 2 & 1.09E-04 \\
+  dauer arrest variant & Colorectal cancer, somatic, 114500 (3) [OMIM] & 26 & 3 & 2 & 1.18E-04 \\
+  loss of asymmetry ASE & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 47 & 2 & 2 & 1.31E-04 \\
+  large cytoplasmic granules early emb & Eye Color [GWAS Central] & 28 & 3 & 2 & 1.37E-04 \\
+  gonad sheath contraction rate reduced & Systolic blood pressure [GWAS Catalog] & 7 & 11 & 2 & 1.39E-04 \\
+  osmotic stress response variant & Sudden cardiac arrest [GWAS Catalog] & 13 & 6 & 2 & 1.41E-04 \\
+  male tail morphology variant & substance dependence [DGA] & 29 & 3 & 2 & 1.47E-04 \\
+  dauer constitutive & Ovarian cancer, somatic, 604370 (3) [OMIM] & 50 & 2 & 2 & 1.49E-04 \\  
+  excessive blebbing early emb & Eye Color [GWAS Central] & 30 & 3 & 2 & 1.57E-04 \\
+  nucleus reforms cell division remnant early emb & lymphoma [DGA] & 14 & 6 & 2 & 1.64E-04 \\
+  egg laying variant & Body mass index (interaction) [GWAS Catalog] & 228 & 3 & 3 & 1.75E-04 \\
+  cell polarity reversed & Bone mineral density [GWAS Catalog] & 4 & 23 & 2 & 1.83E-04 \\
+  nuclear positioning variant & hepatitis [DGA] & 18 & 5 & 2 & 1.84E-04 \\
+  alae variant & Immune reponse to smallpox (secreted IFN-alpha) [GWAS Catalog] & 11 & 8 & 2 & 1.85E-04 \\
+  habituation variant & Asthma [GWAS Catalog] & 15 & 6 & 2 & 1.89E-04 \\
+  \hline
+\end{tabulary}
+\caption[Result hits 16-58 for the disease enrichment]{Result hits 16-58 for the ‘broad-sweep’ disease enrichment. \textsl{n}\textsubscript{1} indicates the number of orthologues in \textsl{C. elegans} (Ce) with phenotype\textsubscript{1}, \textsl{n}\textsubscript{2} the number in \textsl{H. sapiens} (Hs) with phenotype\textsubscript{2} and k the number in both sets. The significance of each phenolog is assessed by the hypergeometric probability (\textsl{P}-value).}
+\label{table:wormqtl_enrichment_suppl1}
+\end{table}
+
+\begin{table}
+\tiny
+\begin{tabulary}{\linewidth}{LLRRRL}
+  Phenotype\textsubscript{1} (Ce) & Phenotype\textsubscript{2} (Hs) & \textsl{n}\textsubscript{1} & \textsl{n}\textsubscript{2} & \textsl{k} & \mbox{\textsl{P}-value~~~~~~~} \\
+  \hline
+  age associated fluorescence increased & narcolepsy [DGA] & 57 & 2 & 2 & 1.94E-04 \\
+  pharyngeal development variant & PR interval [GWAS Catalog] & 24 & 4 & 2 & 1.99E-04 \\
+  movement variant & Acute lymphoblastic leukemia (childhood) [GWAS Catalog] & 19 & 5 & 2 & 2.06E-04 \\
+  miRNA expression variant & Type 2 diabetes [GWAS Catalog] & 50 & 25 & 4 & 2.12E-04 \\
+  hypoxia hypersensitive & Mismatch repair cancer syndrome, 276300 (3) [OMIM] & 25 & 4 & 2 & 2.17E-04 \\
+  P0 spindle rotation failure early emb & Colitis, Ulcerative [GWAS Central] & 9 & 11 & 2 & 2.38E-04 \\
+  paralyzed body & Dyssegmental dysplasia, Silverman-Handmaker type, 224410 (3) [OMIM] & 1 & 1 & 1 & 2.46E-04 \\
+  protein phosphorylation increased & glioma [DGA] & 21 & 5 & 2 & 2.52E-04 \\
+  transgene expression variant & Red blood cell traits [GWAS Catalog] & 147 & 17 & 5 & 2.52E-04 \\
+  anaphase bridging & lymphoma [DGA] & 18 & 6 & 2 & 2.75E-04 \\
+  body wall muscle morphology variant & Response to antidepressant treatment [GWAS Catalog] & 22 & 5 & 2 & 2.77E-04 \\
+  coelomocyte uptake defective & Peters anomaly, 604229 (3) [OMIM] & 70 & 2 & 2 & 2.93E-04 \\
+  paraquat resistant & Colorectal cancer, somatic, 114500 (3) [OMIM] & 41 & 3 & 2 & 2.96E-04 \\
+  HSN migration variant & Bone mineral density [GWAS Catalog] & 24 & 23 & 3 & 2.97E-04 \\
+  small & Leukoencephalopathy with vanishing white matter, 603896 (3) [OMIM] & 174 & 4 & 3 & 2.99E-04 \\
+  embryo osmotic integrity defective early emb & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 71 & 2 & 2 & 3.01E-04 \\
+  endomitotic oocytes & glioma [DGA] & 23 & 5 & 2 & 3.04E-04 \\
+  egg laying defective & Bone mineral density [GWAS Catalog] & 174 & 23 & 6 & 3.11E-04 \\
+  dauer formation variant & Colorectal cancer, somatic, 114500 (3) [OMIM] & 43 & 3 & 2 & 3.26E-04 \\
+  P0 spindle rotation delayed early emb & Platelet counts [GWAS Catalog] & 6 & 20 & 2 & 3.41E-04 \\
+  drug induced gene expression variant & Ventricular conduction [GWAS Catalog] & 10 & 12 & 2 & 3.55E-04 \\
+  multiple nuclei oocyte & Cholesterol [GWAS Central] & 45 & 3 & 2 & 3.58E-04 \\
+  extended life span & Leigh syndrome, 256000 (3) [OMIM] & 206 & 8 & 4 & 3.83E-04 \\
+  short & Palmitoleic acid (16:1n-7) plasma levels [GWAS Catalog] & 26 & 5 & 2 & 3.89E-04 \\
+  lipid composition variant & Urate levels [GWAS Catalog] & 9 & 14 & 2 & 3.92E-04 \\
+  fat content increased & Ovarian cancer, somatic, 604370 (3) [OMIM] & 81 & 2 & 2 & 3.93E-04 \\
+  fewer germ cells & Mean corpuscular hemoglobin [GWAS Catalog] & 34 & 4 & 2 & 4.04E-04 \\
+  oogenesis variant & rheumatoid arthritis [DGA] & 83 & 2 & 2 & 4.13E-04 \\
+  oocyte number decreased & Cholesterol, LDL [GWAS Central] & 194 & 4 & 3 & 4.14E-04 \\
+  germ cell compartment anucleate & Cardiofaciocutaneous syndrome, 115150 (3) [OMIM] & 84 & 2 & 2 & 4.23E-04 \\
+  early larval lethal & kidney disease [DGA] & 85 & 2 & 2 & 4.33E-04 \\
+  dauer constitutive & Colorectal cancer, somatic, 114500 (3) [OMIM] & 50 & 3 & 2 & 4.42E-04 \\
+  transgene expression variant & Systolic blood pressure [GWAS Catalog] & 147 & 11 & 4 & 4.46E-04 \\
+  sex determination variant & Bone mineral density [GWAS Catalog] & 6 & 23 & 2 & 4.54E-04 \\
+  body wall muscle thick filament variant & Atrial septal defect 3 (3) [OMIM] & 2 & 1 & 1 & 4.92E-04 \\
+  response to injury variant & Ulcerative colitis [GWAS Catalog] & 6 & 24 & 2 & 4.95E-04 \\
+  diplotene progression during oogenesis variant & Response to Vitamin E supplementation [GWAS Catalog] & 38 & 4 & 2 & 5.05E-04 \\
+  osmotic stress response variant & Systolic blood pressure [GWAS Catalog] & 13 & 11 & 2 & 5.12E-04 \\
+  male tail morphology variant & Bone mineral density [GWAS Catalog] & 29 & 23 & 3 & 5.27E-04 \\
+  anchor cell invasion variant & Attention deficit hyperactivity disorder [GWAS Catalog] & 57 & 12 & 3 & 5.27E-04 \\
+  exploded through vulva & Bone mineral density [GWAS Catalog] & 277 & 23 & 7 & 6.03E-04 \\
+  antimicrobial gene expression variant & Ventricular conduction [GWAS Catalog] & 13 & 12 & 2 & 6.13E-04 \\
+  \hline
+\end{tabulary}
+\caption[Result hits 59-100 for the disease enrichment]{Result hits 59-100 for the ‘broad-sweep’ disease enrichment. \textsl{n}\textsubscript{1} indicates the number of orthologues in \textsl{C. elegans} (Ce) with phenotype\textsubscript{1}, \textsl{n}\textsubscript{2} the number in \textsl{H. sapiens} (Hs) with phenotype\textsubscript{2} and k the number in both sets. The significance of each phenolog is assessed by the hypergeometric probability (\textsl{P}-value).}
+\label{table:wormqtl_enrichment_suppl2}
+\end{table}
+
+\linespread{1.05} % and back to normal
+
+\section{Discussion}
+The current version of WormQTL\textsuperscript{HD} (August 2013) is a comprehensive and compendious database that enables molecular model organism data to be studied in the context of human diseases.
+Just as with WormQTL \cite{Snoek_2012}\footnote{The original paper erroneously cited \cite{Rodriguez_2013} here.}, we believe that WormQTL\textsuperscript{HD} will be continuously curated by the members of the \textsl{C. elegans} community.
+The results of the ‘broad-sweep’ disease-enrichment test in combination with the web tool will be of special interest to researchers in the human or worm domain.
+We believe these results could also be applied to prioritize the pathogenic variants increasingly being produced by next-generation sequencing in diagnostic labs.
+Genetic variants affecting human genes of unknown function may have worm orthologues that are part of human-worm phenologs and these may reveal or imply a role in a human disease.
+Thus, through functionally conserved networks, missing information can be inferred and candidate genes can be selected via model organisms.
+
+The approach of WormQTL\textsuperscript{HD} is conceptually similar to that described by Smedley \textsl{et al.} \cite{Smedley_2013}.
+They created an automated method called PhenoDigm to provide evidence about gene-disease associations by analysing phenotypic information. In their case, phenotypes consist of a collection of ontology terms, which are aligned and scored to derive an overall phenotype-similarity score.
+Using this method, known gene-phenotype associations in model organisms (mouse, zebrafish) can be transferred to other organisms such as man, and help us to understand the genetic cause of disease.
+This method works best when the model organism is physiologically close to man and has comparable classical phenotypes. It would therefore be less useful for \textsl{C. elegans}.
+However, combining the molecular (WormQTL\textsuperscript{HD}) and phenotypical (PhenoDigm) approaches may result in a very powerful tool to discover novel gene-disease associations in man, especially when using physiologically close model organisms.
+
+We plan to further develop the WormQTL\textsuperscript{HD} data and toolset.
+There might be more ways in which researchers would like to search through the large amounts of data, for example, based on custom lists of gene identifiers, or by combining tools such as finding QTLs within specific regions.
+The QTL plots could be improved or replaced with interactive graphs that are more informative and would allow the users to continue ‘drilling down’ in the data instead of returning to the home page for a new analysis with a different tool.
+Furthermore, we envisage close integration with other data sources and tools such as WormNet, R/qtl and GO Enrichment to provide even more biological context and analytical tools for the user.
+
+Our new database makes this data attractive and easy-to-use for an even wider community of quantitative geneticists working on worms and man.
+We are committed to maintaining the data and software in the future and invite the community to add and share their new data and ideas.
+
+\section*{Supplementary Data}
+Supplementary Data are available at NAR Online.
+
+\section*{Acknowledgements}
+We thank Prof. Anthony J. Brookes and Dr Robert Hastings at the Department of Genetics, University of Leicester, UK, for providing us with the data from GWAS Central via a custom batch query, WormBase, the McKusick-Nathans Institute of Genetic Medicine (OMIM), Northwestern University, Chicago, Illinois (DGA) and The National Human Genome Research Institute (GWAS CATALOG) for openly providing their data in a structured way. We also thank Bart Charbon, Erwin Winder and Dennis Hendriksen for proofreading the manuscript and for their helpful suggestions, Jackie Senior for editing, Patrick Deelen, Roan Kanninga and Pieter Dopheide for testing the WormQTL\textsuperscript{HD} software, and many members of the \textsl{C. elegans} community for their comments and ideas.
+
+\section*{Funding}
+European Union Seventh Framework Programme (FP7/ 2007-2013) research projects BioSHaRE-EU [261433 to K.J.V. and M.A.S.]; Research Project PANACEA [222936 to J.E.K. and R.C.J.]; TI Food and Nutrition [TIFN GH001 to M.A.S.]; Dutch Carbohydrate Competence Center [CCC WP23 to K.Z.]; Centre for BioSystems Genomics (CBSG) and the Netherlands Consortium of Systems Biology (NCSB), both of which are part of the Netherlands Genomics Initiative/ Netherlands Organisation for Scientific Research [to D.A.]; ERASysbio-plus ZonMW project GRAPPLE— Iterative modelling of gene regulatory interactions underlying stress, disease and ageing in \textsl{C. elegans} [90201066 to L.B.S.]; Netherlands Organisation for Scientific Research (NWO) VENI grant [863.13.011 to Y.L.]. Funding for open access charge: EU FP7.
+\\~\\
+\textsl{Conflict of interest statement.} None declared.
+
+\begin{figure}
+	\includegraphics[width=1.0\linewidth]{img/wormqtlhdposter}
+	\caption[WormQTL\textsuperscript{HD} poster]{WormQTL\textsuperscript{HD} poster. Special thanks to Roberto Robert for kind permission to use his incredible artwork. This figure was not part of the published article but has eye-catching properties (anecdotal evidence only). }
+	\label{fig:wormqtlhdposter}
+\end{figure}
